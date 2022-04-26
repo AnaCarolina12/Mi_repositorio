@@ -1,5 +1,6 @@
 package com.example.Empleados.controller;
 
+import com.empleados.openapi.api.EmpleadosApi;
 import com.example.Empleados.models.EmpleadosModel;
 import com.example.Empleados.services.EmpleadosService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,40 +8,41 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
 
 
 @RestController
-public class EmpleadosController {
+public class EmpleadosController implements EmpleadosApi {
 
 
     @Autowired
 private EmpleadosService empleadosService;
 
-   @RequestMapping("/empleados")
+    @Override
     public List<EmpleadosModel> getAllEmpleados(){
 
     return  empleadosService.getAllEmpleados();
    }
 
-
-   @GetMapping("empleados/{dni}")
+   @Override
     public EmpleadosModel getEmpleado(@PathVariable String dni){
 
        return empleadosService.getEmpleados(dni);
 
    }
-
-
-   @PostMapping("/empleados")
+@Override
     public void addUpdateEmpleados(@RequestBody EmpleadosModel empleadosModel){
 
-       empleadosService.addUpdateEmpleados(empleadosModel);
-   }
-
-
-    @DeleteMapping("/empleados/{dni}")
-  public void deleteEmpelados(@PathVariable String dni)  {
-       empleadosService.deleteEmpleados(dni);
+        empleadosService.addUpdateEmpleados(empleadosModel);
     }
+
+    @Override
+    public void cleanEmpelados(@PathVariable String dni)  {
+        empleadosService.cleanEmpleados(dni);
+    }
+    /*
+    No funciona
+
+*/
+
 }

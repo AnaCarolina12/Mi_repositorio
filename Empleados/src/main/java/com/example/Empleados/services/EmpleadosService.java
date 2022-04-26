@@ -73,7 +73,7 @@ public class EmpleadosService {
     }
 
 
-    public void deleteEmpleados(String dni){
+    public void cleanEmpleados(String dni){
 
        getEmpleados(dni);
 
