@@ -40,9 +40,6 @@ private EmpleadosService empleadosService;
     public void cleanEmpelados(@PathVariable String dni)  {
         empleadosService.cleanEmpleados(dni);
     }
-    /*
-    No funciona
 
-*/
 
 }
