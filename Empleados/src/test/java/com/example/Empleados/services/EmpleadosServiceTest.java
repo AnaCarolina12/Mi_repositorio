@@ -20,15 +20,12 @@ import static org.mockito.Mockito.when;
 
 class EmpleadosServiceTest {
 
-    @Mock
+    @MockBean
     private EmpleadosRepository empleadosRepository;
 
     @InjectMocks
     private EmpleadosService empleadosService;
     private EmpleadosModel empleadosModel;
-
-
-
 
     @BeforeEach
     void setUp(){
@@ -38,7 +35,6 @@ class EmpleadosServiceTest {
         empleadosModel.setNombre("Marianza");
         empleadosModel.setApellidos("Juanjo");
         empleadosModel.setDni("12345678P");
-
 
     }
 

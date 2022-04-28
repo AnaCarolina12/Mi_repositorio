@@ -31,10 +31,12 @@ private EmpleadosService empleadosService;
 
    }
 @Override
-    public void addUpdateEmpleados(@RequestBody EmpleadosModel empleadosModel){
+    public EmpleadosModel addUpdateEmpleados(@RequestBody EmpleadosModel empleadosModel){
 
         empleadosService.addUpdateEmpleados(empleadosModel);
-    }
+
+    return empleadosModel;
+}
 
     @Override
     public void deleteEmpelados(@PathVariable String dni)  {

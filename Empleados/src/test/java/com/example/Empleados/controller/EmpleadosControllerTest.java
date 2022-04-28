@@ -4,9 +4,12 @@ import com.empleados.openapi.model.Empleados;
 import com.example.Empleados.models.EmpleadosModel;
 import com.example.Empleados.repository.EmpleadosRepository;
 import com.example.Empleados.services.EmpleadosService;
+import com.google.common.collect.Collections2;
 import org.assertj.core.util.Arrays;
+import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.util.CollectionUtils;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -17,13 +20,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 
 @WebMvcTest(EmpleadosController.class)
@@ -33,45 +36,52 @@ import static org.junit.jupiter.api.Assertions.*;
 class EmpleadosControllerTest {
 
     @MockBean
+   private EmpleadosService empleadosService;
+
+    @InjectMocks
     private EmpleadosController empleadosController;
-@Mock
- private EmpleadosRepository empleadosRepository;
 
-    @BeforeEach
-    void setUp(){
-        MockitoAnnotations.initMocks(this);
-        EmpleadosModel empleadosModel = new EmpleadosModel();
-
-        empleadosModel.setNombre("Marianza");
-        empleadosModel.setApellidos("Juanjo");
-        empleadosModel.setDni("12345678P");
+    @InjectMocks
+ private EmpleadosModel empleadosModel;
 
 
-    }
+ @BeforeEach
+ void setUp(){
+  MockitoAnnotations.openMocks(this);
 
+ }
 
-    @Test
-    void getAllEmpleados() {
+ @Test
+ void getAllEmpleados() {
 
-
-    }
+  when(empleadosService.getAllEmpleados()).thenReturn(Collections.emptyList());
+  List<EmpleadosModel> response = empleadosController.getAllEmpleados();
+  assertNotNull(response);
+  assertEquals(Collections.emptyList(),response);
+ }
 
     @Test
     void getEmpleado() {
-    }
 
-    @Test
-    void addUpdateEmpleados() {
-    }
+    when(empleadosService.getEmpleados(empleadosModel.getDni())).thenReturn(empleadosModel);
+     EmpleadosModel response = empleadosController.getEmpleado(empleadosModel.getDni());
+     assertNotNull(response);
+     assertEquals(empleadosModel,response);
 
-    @Test
-    void deleteEmpelados() {
-        EmpleadosModel empleadosModel = new EmpleadosModel();
+ }
 
-        empleadosModel.setNombre("Marianza");
-        empleadosModel.setApellidos("Juanjo");
-        empleadosModel.setDni("12345678P");
-        empleadosController.deleteEmpelados(empleadosModel.getDni());
-        verify(empleadosRepository).deleteById(empleadosModel.getDni());
-    }
+ @Test
+ void addUpdateEmpleados() {
+
+  EmpleadosModel response = empleadosController.addUpdateEmpleados(empleadosModel);
+  assertNotNull(response);
+  assertEquals(empleadosModel,response);
+
+
+ }
+
+ @Test
+ void deleteEmpleados() {
+ }
+
 }

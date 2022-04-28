@@ -14,10 +14,10 @@ import org.springframework.util.CollectionUtils;
 import java.util.*;
 
 @Service
-@RequiredArgsConstructor
+
 public class EmpleadosService {
 
-    private final EmpleadosRepository empleadosRepository;
+    private EmpleadosRepository empleadosRepository;
 
     public  List<EmpleadosModel> getAllEmpleados(){
 
