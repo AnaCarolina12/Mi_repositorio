@@ -9,7 +9,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -38,7 +41,9 @@ void setUp(){
     }
 
     @Test
-    void getEmpleado() {
+    void getEmpleado(String id) {
+    when(empleadosRepository.findById(id)).thenReturn();
+        assertNotNull(empleadosService.getEmpleados(id));
     }
 
     @Test
