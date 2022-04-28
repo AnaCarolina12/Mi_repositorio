@@ -41,9 +41,9 @@ void setUp(){
     }
 
     @Test
-    void getEmpleado(String id) {
-    when(empleadosRepository.findById(id)).thenReturn();
-        assertNotNull(empleadosService.getEmpleados(id));
+    void getEmpleado() {
+    when(empleadosRepository.findById(empleadosModel.getDni())).thenReturn(Optional.ofNullable(empleadosModel));
+        assertNotNull(empleadosService.getEmpleados(empleadosModel.getDni()));
     }
 
     @Test
