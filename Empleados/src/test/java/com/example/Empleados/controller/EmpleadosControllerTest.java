@@ -1,66 +1,77 @@
 package com.example.Empleados.controller;
 
+import com.empleados.openapi.model.Empleados;
 import com.example.Empleados.models.EmpleadosModel;
 import com.example.Empleados.repository.EmpleadosRepository;
 import com.example.Empleados.services.EmpleadosService;
+import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
-
-import java.util.Arrays;
-import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
+@WebMvcTest(EmpleadosController.class)
+
+
+
 class EmpleadosControllerTest {
 
+    @MockBean
+    private EmpleadosController empleadosController;
 @Mock
-private EmpleadosRepository empleadosRepository;
+ private EmpleadosRepository empleadosRepository;
 
-@InjectMocks
-private EmpleadosService empleadosService;
-private EmpleadosModel empleadosModel;
+    @BeforeEach
+    void setUp(){
+        MockitoAnnotations.initMocks(this);
+        EmpleadosModel empleadosModel = new EmpleadosModel();
 
-@BeforeEach
-void setUp(){
-    MockitoAnnotations.initMocks(this);
-    empleadosModel= new EmpleadosModel();
-
-    empleadosModel.setNombre("Marianza");
-    empleadosModel.setApellidos("Juanjo");
-    empleadosModel.setDni("12345678P");
+        empleadosModel.setNombre("Marianza");
+        empleadosModel.setApellidos("Juanjo");
+        empleadosModel.setDni("12345678P");
 
 
-}
+    }
+
+
     @Test
     void getAllEmpleados() {
-    when(empleadosRepository.findAll()).thenReturn(Arrays.asList(empleadosModel));
-    assertNotNull(empleadosService.getAllEmpleados());
+
+
     }
 
     @Test
     void getEmpleado() {
-    when(empleadosRepository.findById(empleadosModel.getDni())).thenReturn(Optional.ofNullable(empleadosModel));
-        assertNotNull(empleadosService.getEmpleados(empleadosModel.getDni()));
     }
 
     @Test
     void addUpdateEmpleados() {
-    when(empleadosRepository.save(any(EmpleadosModel.class))).thenReturn(empleadosModel);
-    when(empleadosRepository.findById(empleadosModel.getDni())).thenReturn(Optional.ofNullable(empleadosModel));
-
     }
 
     @Test
     void deleteEmpelados() {
-    when(empleadosRepository.deleteByDni(empleadosModel.getDni())).thenReturn(null);
+        EmpleadosModel empleadosModel = new EmpleadosModel();
 
+        empleadosModel.setNombre("Marianza");
+        empleadosModel.setApellidos("Juanjo");
+        empleadosModel.setDni("12345678P");
+        empleadosController.deleteEmpelados(empleadosModel.getDni());
+        verify(empleadosRepository).deleteById(empleadosModel.getDni());
     }
 }
