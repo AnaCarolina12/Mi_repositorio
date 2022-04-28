@@ -9,11 +9,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.sql.Array;
-import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -31,7 +31,12 @@ private EmpleadosModel empleadosModel;
 @BeforeEach
 void setUp(){
     MockitoAnnotations.initMocks(this);
-    empleadosModel= new EmpleadosModel("12345678P","Juanjo","Marianza");
+    empleadosModel= new EmpleadosModel();
+
+    empleadosModel.setNombre("Marianza");
+    empleadosModel.setApellidos("Juanjo");
+    empleadosModel.setDni("12345678P");
+
 
 }
     @Test
@@ -48,9 +53,14 @@ void setUp(){
 
     @Test
     void addUpdateEmpleados() {
+    when(empleadosRepository.save(any(EmpleadosModel.class))).thenReturn(empleadosModel);
+    when(empleadosRepository.findById(empleadosModel.getDni())).thenReturn(Optional.ofNullable(empleadosModel));
+
     }
 
     @Test
     void deleteEmpelados() {
+    when(empleadosRepository.deleteByDni(empleadosModel.getDni())).thenReturn(null);
+
     }
 }

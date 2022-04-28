@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EmpleadosRepository extends MongoRepository<EmpleadosModel, String> {
 
+    EmpleadosModel deleteByDni(String id);
 }

@@ -20,5 +20,7 @@ public class EmpleadosModel {
 
     private String apellidos;
 
+    public EmpleadosModel() {
 
+    }
 }
