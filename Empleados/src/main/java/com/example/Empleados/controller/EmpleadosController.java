@@ -37,8 +37,8 @@ private EmpleadosService empleadosService;
     }
 
     @Override
-    public void cleanEmpelados(@PathVariable String dni)  {
-        empleadosService.cleanEmpleados(dni);
+    public void deleteEmpelados(@PathVariable String dni)  {
+        empleadosService.deleteEmpleados(dni);
     }
 
 

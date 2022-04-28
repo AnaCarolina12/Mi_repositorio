@@ -51,6 +51,6 @@ void setUp(){
     }
 
     @Test
-    void cleanEmpelados() {
+    void deleteEmpelados() {
     }
 }
