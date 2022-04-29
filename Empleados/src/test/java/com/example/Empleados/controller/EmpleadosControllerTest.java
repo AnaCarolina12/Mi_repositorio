@@ -70,18 +70,28 @@ class EmpleadosControllerTest {
 
  }
 
+
+
+
  @Test
  void addUpdateEmpleados() {
 
-  EmpleadosModel response = empleadosController.addUpdateEmpleados(empleadosModel);
-  assertNotNull(response);
-  assertEquals(empleadosModel,response);
+  doNothing().when(empleadosService).addUpdateEmpleados(empleadosModel);
+  empleadosController.addUpdateEmpleados(empleadosModel);
+
+  verify(empleadosService,times(1)).addUpdateEmpleados(empleadosModel);
 
 
  }
 
  @Test
- void deleteEmpleados() {
+ void deleteEmpelados() {
+  doNothing().when(empleadosService).deleteEmpleados(empleadosModel.getDni());
+  empleadosController.deleteEmpelados(empleadosModel.getDni());
+
+  verify(empleadosService,times(1)).deleteEmpleados(empleadosModel.getDni());
+
+
  }
 
 }
