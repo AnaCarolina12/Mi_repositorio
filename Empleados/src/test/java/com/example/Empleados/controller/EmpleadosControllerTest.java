@@ -67,6 +67,7 @@ class EmpleadosControllerTest {
      EmpleadosModel response = empleadosController.getEmpleado(empleadosModel.getDni());
      assertNotNull(response);
      assertEquals(empleadosModel,response);
+
  }
 
  @Test
@@ -75,6 +76,7 @@ class EmpleadosControllerTest {
   EmpleadosModel response = empleadosController.addUpdateEmpleados(empleadosModel);
   assertNotNull(response);
   assertEquals(empleadosModel,response);
+
 
  }
 
