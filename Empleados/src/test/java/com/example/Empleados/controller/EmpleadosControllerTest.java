@@ -77,7 +77,6 @@ class EmpleadosControllerTest {
   assertNotNull(response);
   assertEquals(empleadosModel,response);
 
-
  }
 
  @Test
