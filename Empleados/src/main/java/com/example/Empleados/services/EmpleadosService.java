@@ -8,6 +8,7 @@ import com.example.Empleados.models.EmpleadosModel;
 import com.example.Empleados.repository.EmpleadosRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 public class EmpleadosService {
 
+    @Autowired
     private EmpleadosRepository empleadosRepository;
 
     public  List<EmpleadosModel> getAllEmpleados(){
@@ -47,7 +49,7 @@ public class EmpleadosService {
     }
 
 
-    public void addUpdateEmpleados(EmpleadosModel empleadosModel){
+    public void  addUpdateEmpleados(EmpleadosModel empleadosModel){
 
         boolean emptyName = StringUtils.isBlank(empleadosModel.getNombre());
         boolean emptySurname = StringUtils.isBlank(empleadosModel.getApellidos());
@@ -70,16 +72,17 @@ public class EmpleadosService {
             throw new BadRequestException("El dni no cumple con el patron");
         }
 
-        EmpleadosModel response = empleadosRepository.save(empleadosModel);
+EmpleadosModel emp= empleadosRepository.save(empleadosModel);
+
 
     }
 
 
     public void deleteEmpleados(String dni){
-
-       getEmpleados(dni);
+    //getEmpleados(dni);
 
             empleadosRepository.deleteById(dni);
+
     }
 
 }

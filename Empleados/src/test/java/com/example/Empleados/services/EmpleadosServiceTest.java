@@ -1,10 +1,14 @@
 package com.example.Empleados.services;
 
+import com.example.Empleados.controller.EmpleadosController;
 import com.example.Empleados.models.EmpleadosModel;
 import com.example.Empleados.repository.EmpleadosRepository;
+import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -23,14 +27,13 @@ class EmpleadosServiceTest {
     @MockBean
     private EmpleadosRepository empleadosRepository;
 
-
-
     @InjectMocks
     private EmpleadosService empleadosService;
     @InjectMocks
     private EmpleadosModel empleadosModel;
 
-
+    @InjectMocks
+    private EmpleadosController empleadosController;
     @BeforeEach
     void setUp(){
         MockitoAnnotations.openMocks(this);
@@ -45,36 +48,36 @@ class EmpleadosServiceTest {
     @Test
     void getAllEmpleados() {
 
-
-
         when(empleadosRepository.findAll()).thenReturn(Arrays.asList(empleadosModel));
         assertNotNull(empleadosService.getAllEmpleados());
-        //
+
     }
 
     @Test
     void getEmpleados() {
-        when(empleadosRepository.findById(empleadosModel.getDni())).thenReturn(Optional.ofNullable(empleadosModel));
 
+        when(empleadosRepository.findById(empleadosModel.getDni())).
+                thenReturn(Optional.ofNullable(empleadosModel));
         assertNotNull(empleadosService.getEmpleados(empleadosModel.getDni()));
     }
 
     @Test
     void addUpdateEmpleados(){
 
+        when(empleadosRepository.save(empleadosModel)).thenReturn(empleadosModel);
 
-       empleadosService.addUpdateEmpleados(empleadosModel);
-      verify(empleadosRepository).save(empleadosModel);
+
+
+
     }
 
 
     @Test
     void deleteEmpleados(){
 
+        doNothing().when(empleadosRepository).deleteById(empleadosModel.getDni());
 
-        empleadosService.deleteEmpleados(empleadosModel.getDni());
-         verify(empleadosRepository).deleteById(empleadosModel.getDni());
-
+        verify(empleadosRepository,times(1)).deleteById(empleadosModel.getDni());
 
     }
 
