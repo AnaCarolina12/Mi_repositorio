@@ -1,7 +1,5 @@
 package com.example.Empleados.models;
 
-
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;

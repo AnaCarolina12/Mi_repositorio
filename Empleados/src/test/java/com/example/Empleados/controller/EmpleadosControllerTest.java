@@ -1,12 +1,11 @@
 package com.example.Empleados.controller;
 
-import com.empleados.openapi.model.Empleados;
+
 import com.example.Empleados.models.EmpleadosModel;
 import com.example.Empleados.repository.EmpleadosRepository;
 import com.example.Empleados.services.EmpleadosService;
 import com.google.common.collect.Collections2;
 import org.assertj.core.util.Arrays;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.CollectionUtils;
@@ -33,7 +32,7 @@ import static org.mockito.Mockito.*;
 
 
 
-class EmpleadosControllerTest {
+class EmpleadosControllerTest{
 
     @MockBean
    private EmpleadosService empleadosService;

@@ -5,13 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-//@ControllerAdvice:anotación que permite manejar las excepciones de nuestra aplicación
-// en un componente de manejo global
 @ControllerAdvice
 public class RestExceptionHandler {
 
-    //@ExceptionHandler: anotacion usada en métodos para
-    //devolver el contenido de una respuesta personalizada al usuario
     @ExceptionHandler
     public ResponseEntity<ErrorObject> handlerNoContentException(NoContentException e){
         ErrorObject errorObject= new ErrorObject();

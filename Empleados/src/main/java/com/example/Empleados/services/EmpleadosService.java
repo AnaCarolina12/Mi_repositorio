@@ -1,8 +1,9 @@
 package com.example.Empleados.services;
 
+
+import com.example.Empleados.exceptions.BadRequestException;
 import com.example.Empleados.exceptions.NoContentException;
 import com.example.Empleados.exceptions.NotFoundException;
-import com.example.Empleados.exceptions.BadRequestException;
 import com.example.Empleados.models.EmpleadosModel;
 import com.example.Empleados.repository.EmpleadosRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,10 +11,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 
 public class EmpleadosService {
 
@@ -25,7 +27,7 @@ public class EmpleadosService {
 
        if(CollectionUtils.isEmpty(empleadosgetlista))
       {
-        throw new NotFoundException("No hay ningún empleado");
+        throw new NotFoundException("No existe los empleados");
       }
 
             return  empleadosgetlista;
@@ -60,7 +62,7 @@ public class EmpleadosService {
 
        else if(emptyDni)
         {
-            throw new NoContentException("El campo dni está vacio");
+            throw new  NoContentException("El dni del empleado esta vacio");
         }
 
         else if(!expReg)

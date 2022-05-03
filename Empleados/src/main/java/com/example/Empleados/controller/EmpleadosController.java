@@ -1,7 +1,8 @@
 package com.example.Empleados.controller;
 
-import com.example.Empleados.models.Empleados;
-import com.example.Empleados.service.EmpleadosServiceImp;
+
+import com.example.Empleados.models.EmpleadosModel;
+import com.example.Empleados.services.EmpleadosService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
@@ -17,17 +18,17 @@ public class EmpleadosController {
     //aqui va ha enlazar el servicio con el controler
     @Autowired
 
-private EmpleadosServiceImp empleadosService;
+private EmpleadosService empleadosService;
 
    @GetMapping("/emp")
-    public List<Empleados> getAllEmpleados(){
+    public List<EmpleadosModel> getAllEmpleados(){
 
     return  empleadosService.getAllEmpleados();
    }
 
 
    @GetMapping("emp/{dni}")
-    public Empleados getEmpleado(@PathVariable String dni){
+    public EmpleadosModel getEmpleado(@PathVariable String dni){
 
        return empleadosService.getEmpleados(dni);
 
@@ -35,7 +36,7 @@ private EmpleadosServiceImp empleadosService;
 
 
    @PostMapping("/emp")
-    public void addUpdateEmpleados(@RequestBody Empleados empleadosModel){
+    public void addUpdateEmpleados(@RequestBody EmpleadosModel empleadosModel){
 
        empleadosService.addUpdateEmpleados(empleadosModel);
    }
