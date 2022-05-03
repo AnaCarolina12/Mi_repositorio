@@ -1,9 +1,7 @@
 package com.example.Empleados.controller;
 
-//
-import com.empleados.openapi.api.EmpleadosApi;
-import com.example.Empleados.models.EmpleadosModel;
-import com.example.Empleados.services.EmpleadosService;
+import com.example.Empleados.models.Empleados;
+import com.example.Empleados.service.EmpleadosServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
@@ -11,41 +9,40 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
-
 @RestController
-public class EmpleadosController implements EmpleadosApi {
+public class EmpleadosController {
 
 
+    //@Autowired: inyecta unas dependecias con otras.
+    //aqui va ha enlazar el servicio con el controler
     @Autowired
-private EmpleadosService empleadosService;
 
+private EmpleadosServiceImp empleadosService;
 
-
-    @Override
-    public List<EmpleadosModel> getAllEmpleados(){
+   @GetMapping("/emp")
+    public List<Empleados> getAllEmpleados(){
 
     return  empleadosService.getAllEmpleados();
    }
 
-    @Override
-    public EmpleadosModel getEmpleado(@PathVariable String dni){
+
+   @GetMapping("emp/{dni}")
+    public Empleados getEmpleado(@PathVariable String dni){
 
        return empleadosService.getEmpleados(dni);
 
    }
-    @Override
-    public void addUpdateEmpleados(@RequestBody EmpleadosModel empleadosModel){
-
-        empleadosService.addUpdateEmpleados(empleadosModel);
 
 
+   @PostMapping("/emp")
+    public void addUpdateEmpleados(@RequestBody Empleados empleadosModel){
+
+       empleadosService.addUpdateEmpleados(empleadosModel);
+   }
+
+
+    @DeleteMapping("/emp/{dni}")
+  public void deleteEmpelados(@PathVariable String dni)  {
+       empleadosService.deleteEmpleados(dni);
     }
-
-    @Override
-    public void deleteEmpelados(@PathVariable String dni)  {
-        empleadosService.deleteEmpleados(dni);
-
-    }
-
-
 }
