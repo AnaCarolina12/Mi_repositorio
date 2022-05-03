@@ -68,7 +68,7 @@ public class EmpleadosService {
             throw new BadRequestException("El dni no cumple con el patron");
         }
 
-        empleadosRepository.save(empleadosModel);
+        EmpleadosModel response = empleadosRepository.save(empleadosModel);
 
     }
 
