@@ -65,7 +65,7 @@ class EmpleadosServiceTest {
     void addUpdateEmpleados(){
 
         when(empleadosRepository.save(empleadosModel)).thenReturn(empleadosModel);
-
+        assertNotNull(empleadosService.addUpdateEmpleados(empleadosModel));
 
 
 
@@ -75,9 +75,11 @@ class EmpleadosServiceTest {
     @Test
     void deleteEmpleados(){
 
-        doNothing().when(empleadosRepository).deleteById(empleadosModel.getDni());
+        when(empleadosRepository.findById(empleadosModel.getDni())).
+                thenReturn(Optional.ofNullable(empleadosModel));
+       empleadosService.deleteEmpleados(empleadosModel.getDni());
 
-        verify(empleadosRepository,times(1)).deleteById(empleadosModel.getDni());
+        verify(empleadosRepository).deleteById(empleadosModel.getDni());
 
     }
 

@@ -49,7 +49,7 @@ public class EmpleadosService {
     }
 
 
-    public void  addUpdateEmpleados(EmpleadosModel empleadosModel){
+    public EmpleadosModel  addUpdateEmpleados(EmpleadosModel empleadosModel){
 
         boolean emptyName = StringUtils.isBlank(empleadosModel.getNombre());
         boolean emptySurname = StringUtils.isBlank(empleadosModel.getApellidos());
@@ -74,12 +74,13 @@ public class EmpleadosService {
 
 EmpleadosModel emp= empleadosRepository.save(empleadosModel);
 
+        return emp;
 
     }
 
 
     public void deleteEmpleados(String dni){
-    //getEmpleados(dni);
+        getEmpleados(dni);
 
             empleadosRepository.deleteById(dni);
 

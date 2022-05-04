@@ -71,10 +71,11 @@ class EmpleadosControllerTest{
  @Test
  void addUpdateEmpleados() {
 
-  doNothing().when(empleadosService).addUpdateEmpleados(empleadosModel);
-  empleadosController.addUpdateEmpleados(empleadosModel);
+  when(empleadosService.addUpdateEmpleados(empleadosModel)).thenReturn(empleadosModel);
+     EmpleadosModel response=   empleadosController.addUpdateEmpleados(empleadosModel);
 
-  verify(empleadosService,times(1)).addUpdateEmpleados(empleadosModel);
+  assertNotNull(response);
+  assertEquals(empleadosModel,response);
 
 
  }
