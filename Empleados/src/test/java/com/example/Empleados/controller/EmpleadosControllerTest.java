@@ -36,22 +36,21 @@ class EmpleadosControllerTest{
  private Empleados empleados;
 
 
- @BeforeEach
- void setUp(){
-  MockitoAnnotations.openMocks(this);
+  @BeforeEach
+  void setUp(){
+   MockitoAnnotations.openMocks(this);
 
+  }
 
- }
+   @Test
+   void getAllEmpleados() {
 
- @Test
- void getAllEmpleados() {
+    when(empleadosServiceImp.getAllEmpleados()).thenReturn(Arrays.asList(empleados));
+    List<Empleados> response = empleadosController.getAllEmpleados();
+    assertNotNull(response);
+    assertEquals((Arrays.asList(empleados)),response);
 
-
-  when(empleadosServiceImp.getAllEmpleados()).thenReturn(Arrays.asList(empleados));
-  List<Empleados> response = empleadosController.getAllEmpleados();
-  assertNotNull(response);
-  assertEquals((Arrays.asList(empleados)),response);
- }
+   }
     @Test
     void getEmpleado() {
 
@@ -62,25 +61,25 @@ class EmpleadosControllerTest{
 
  }
 
- @Test
- void addUpdateEmpleados() {
+   @Test
+   void addUpdateEmpleados() {
 
-  when(empleadosServiceImp.addUpdateEmpleados(empleados)).thenReturn(empleados);
-     Empleados response=   empleadosController.addUpdateEmpleados(empleados);
-  assertNotNull(response);
-  assertEquals(empleados,response);
+    when(empleadosServiceImp.addUpdateEmpleados(empleados)).thenReturn(empleados);
+       Empleados response=empleadosController.addUpdateEmpleados(empleados);
+    assertNotNull(response);
+    assertEquals(empleados,response);
+
+   }
+
+   @Test
+   void deleteEmpelados() {
+
+    doNothing().when(empleadosServiceImp).deleteEmpleados(empleados.getDni());
+    empleadosController.deleteEmpelados(empleados.getDni());
+
+    verify(empleadosServiceImp).deleteEmpleados(empleados.getDni());
 
 
- }
-
- @Test
- void deleteEmpelados() {
-  doNothing().when(empleadosServiceImp).deleteEmpleados(empleados.getDni());
-  empleadosController.deleteEmpelados(empleados.getDni());
-
-  verify(empleadosServiceImp,times(1)).deleteEmpleados(empleados.getDni());
-
-
- }
+   }
 
 }

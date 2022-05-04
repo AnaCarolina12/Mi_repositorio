@@ -11,11 +11,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 public class Empleados {
 
-@Id
+    @Id
     private String dni;
 
     private String nombre;
-
     private String apellidos;
 
     public Empleados() {

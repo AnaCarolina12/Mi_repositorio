@@ -15,8 +15,8 @@ import java.util.List;
 public class EmpleadosController implements EmpleadosApi {
 
 
-    @Autowired
-private EmpleadosServiceImp empleadosServiceImp;
+    @Autowired//conecta componentes con otros
+    private EmpleadosServiceImp empleadosServiceImp;
 
    @Override
     public List<Empleados> getAllEmpleados(){

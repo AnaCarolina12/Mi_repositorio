@@ -16,6 +16,7 @@ public class RestExceptionHandler {
         errorObject.setHttpStatus(HttpStatus.NO_CONTENT);
 
         return new ResponseEntity<>(errorObject,HttpStatus.OK);
+        //representa una respuesta HTTP, con encabezado , cuerpo y estado
 
     }
 
