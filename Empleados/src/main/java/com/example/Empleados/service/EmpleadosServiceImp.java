@@ -58,8 +58,8 @@ public class EmpleadosServiceImp implements EmpleadosIn {
         boolean emptySurname = StringUtils.isBlank(empleados.getApellidos());
 
         boolean emptyDni= StringUtils.isBlank(empleados.getDni());
-
         boolean expReg = empleados.getDni().matches("[0-9]{8}[A-Z]");
+
         if(emptyName || emptySurname)
         {
             throw new NoContentException("Un dato del empleado esta vacio");
@@ -86,7 +86,7 @@ public class EmpleadosServiceImp implements EmpleadosIn {
     public void deleteEmpleados(String dni){
         getEmpleados(dni);
 
-            empleadosRepository.deleteById(dni);
+        empleadosRepository.deleteById(dni);
 
     }
 
