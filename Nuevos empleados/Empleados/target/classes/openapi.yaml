@@ -1,0 +1,109 @@
+openapi: 3.0.0
+info:
+  title: Empleados API
+  version: '1.0'
+servers:
+
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/AnaCarolina12/MyApiCompany/1.0
+  - description: Empleados
+    url: http://localhost:8080
+
+paths:
+  /empleados:
+    get:
+      description: Returns a list of employees 
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  #  ----- Added line  --------------------------------
+                  $ref: '#/components/schemas/empleados'
+                  #  ---- /Added line  --------------------------------
+        '400':
+          #  ----- Added line  ----------------------------------------
+          $ref: '#/components/responses/Error'
+          #  ---- /Added line  ----------------------------------------
+
+    post:
+      description:  Post a new employee
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              #  ----- Added line  ------------------------------------
+              $ref: '#/components/schemas/empleados'
+              #  ---- /Added line  ------------------------------------
+      responses:
+        '200':
+          description: OK
+        '400':
+          #  ----- Added line  ----------------------------------------
+          $ref: '#/components/responses/Error'
+          #  ---- /Added line  ----------------------------------------    
+
+  /empleados/{dni}:
+    get:
+      description: Obtain information about an employee from his or her unique dni
+      parameters:
+        - name: dni
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/Error'
+                
+
+    delete:
+      parameters:
+        - name: dni
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          
+          
+
+components:
+
+  schemas:
+    empleados:
+      type: object
+      properties:
+        dni:
+          type: string
+        nombre:
+            type: string
+        apellidos:
+            type: string
+
+  #  ----- Added lines  ----------------------------------------
+
+  responses:
+    Error:
+      description: Error de petición
+      content:
+        application/json:
+          schema:
+            type: object 
+            properties:
+              message:
+                type: string
+                
+              code:
+                type: integer
+              
+  #  ---- /Added lines  ----------------------------------------

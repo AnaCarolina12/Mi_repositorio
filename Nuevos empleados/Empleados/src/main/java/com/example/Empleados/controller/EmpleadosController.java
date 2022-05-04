@@ -1,5 +1,6 @@
 package com.example.Empleados.controller;
 
+import com.empleados.openapi.api.EmpleadosApi;
 import com.example.Empleados.models.Empleados;
 import com.example.Empleados.service.EmpleadosServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import java.util.List;
 
 
 @RestController
-public class EmpleadosController {
+public class EmpleadosController implements EmpleadosApi {
 
 
     //@Autowired: inyecta unas dependecias con otras.
@@ -19,14 +20,15 @@ public class EmpleadosController {
 
 private EmpleadosServiceImp empleadosService;
 
-   @GetMapping("/emp")
+
+  @Override
     public List<Empleados> getAllEmpleados(){
 
     return  empleadosService.getAllEmpleados();
    }
 
 
-   @GetMapping("emp/{dni}")
+    @Override
     public Empleados getEmpleado(@PathVariable String dni){
 
        return empleadosService.getEmpleados(dni);
@@ -34,14 +36,14 @@ private EmpleadosServiceImp empleadosService;
    }
 
 
-   @PostMapping("/emp")
+    @Override
     public void addUpdateEmpleados(@RequestBody Empleados empleadosModel){
 
        empleadosService.addUpdateEmpleados(empleadosModel);
    }
 
 
-    @DeleteMapping("/emp/{dni}")
+    @Override
   public void deleteEmpelados(@PathVariable String dni)  {
        empleadosService.deleteEmpleados(dni);
     }
