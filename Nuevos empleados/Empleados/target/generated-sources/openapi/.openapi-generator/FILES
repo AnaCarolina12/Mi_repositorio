@@ -1,6 +1,0 @@
-src/main/java/com/empleados/openapi/api/ApiUtil.java
-src/main/java/com/empleados/openapi/api/EmpleadosApi.java
-src/main/java/com/empleados/openapi/api/EmpleadosApiController.java
-src/main/java/com/empleados/openapi/api/EmpleadosApiDelegate.java
-src/main/java/com/empleados/openapi/model/Empleados.java
-src/main/java/com/empleados/openapi/model/InlineResponse400.java
