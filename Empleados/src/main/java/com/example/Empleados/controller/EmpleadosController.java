@@ -2,8 +2,8 @@ package com.example.Empleados.controller;
 
 
 import com.empleados.openapi.api.EmpleadosApi;
-import com.example.Empleados.models.EmpleadosModel;
-import com.example.Empleados.services.EmpleadosService;
+import com.example.Empleados.model.Empleados;
+import com.example.Empleados.service.EmpleadosServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
@@ -16,32 +16,32 @@ public class EmpleadosController implements EmpleadosApi {
 
 
     @Autowired
-private EmpleadosService empleadosService;
+private EmpleadosServiceImp empleadosServiceImp;
 
    @Override
-    public List<EmpleadosModel> getAllEmpleados(){
+    public List<Empleados> getAllEmpleados(){
 
-    return  empleadosService.getAllEmpleados();
+    return  empleadosServiceImp.getAllEmpleados();
    }
 
 
    @Override
-    public EmpleadosModel getEmpleado(@PathVariable String dni){
+    public Empleados getEmpleado(@PathVariable String dni){
 
-       return empleadosService.getEmpleados(dni);
+       return empleadosServiceImp.getEmpleados(dni);
 
    }
 
 
    @Override
-    public EmpleadosModel addUpdateEmpleados(@RequestBody EmpleadosModel empleadosModel){
+    public Empleados addUpdateEmpleados(@RequestBody Empleados empleados){
 
-   return empleadosService.addUpdateEmpleados(empleadosModel);
+   return empleadosServiceImp.addUpdateEmpleados(empleados);
    }
 
 
     @Override
   public void deleteEmpelados(@PathVariable String dni)  {
-       empleadosService.deleteEmpleados(dni);
+       empleadosServiceImp.deleteEmpleados(dni);
     }
 }

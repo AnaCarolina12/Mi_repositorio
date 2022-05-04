@@ -1,10 +1,11 @@
-package com.example.Empleados.services;
+package com.example.Empleados.service;
 
 
-import com.example.Empleados.exceptions.BadRequestException;
-import com.example.Empleados.exceptions.NoContentException;
-import com.example.Empleados.exceptions.NotFoundException;
-import com.example.Empleados.models.EmpleadosModel;
+import com.example.Empleados.exception.BadRequestException;
+import com.example.Empleados.exception.NoContentException;
+import com.example.Empleados.exception.NotFoundException;
+import com.example.Empleados.interfaze.EmpleadosIn;
+import com.example.Empleados.model.Empleados;
 import com.example.Empleados.repository.EmpleadosRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -18,14 +19,15 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 
-public class EmpleadosService {
+public class EmpleadosServiceImp implements EmpleadosIn {
 
     @Autowired
     private EmpleadosRepository empleadosRepository;
 
-    public  List<EmpleadosModel> getAllEmpleados(){
+    @Override
+    public  List<Empleados> getAllEmpleados(){
 
-        List<EmpleadosModel> empleadosgetlista=empleadosRepository.findAll();
+        List<Empleados> empleadosgetlista=empleadosRepository.findAll();
 
        if(CollectionUtils.isEmpty(empleadosgetlista))
       {
@@ -36,9 +38,10 @@ public class EmpleadosService {
     }
 
 
-    public EmpleadosModel getEmpleados(String dni){
+    @Override
+    public Empleados getEmpleados(String dni){
 
-        Optional<EmpleadosModel> listar=empleadosRepository.findById(dni);
+        Optional<Empleados> listar=empleadosRepository.findById(dni);
 
       if(!listar.isPresent())
       {
@@ -49,14 +52,15 @@ public class EmpleadosService {
     }
 
 
-    public EmpleadosModel  addUpdateEmpleados(EmpleadosModel empleadosModel){
+    @Override
+    public Empleados addUpdateEmpleados(Empleados empleados){
 
-        boolean emptyName = StringUtils.isBlank(empleadosModel.getNombre());
-        boolean emptySurname = StringUtils.isBlank(empleadosModel.getApellidos());
+        boolean emptyName = StringUtils.isBlank(empleados.getNombre());
+        boolean emptySurname = StringUtils.isBlank(empleados.getApellidos());
 
-        boolean emptyDni= StringUtils.isBlank(empleadosModel.getDni());
+        boolean emptyDni= StringUtils.isBlank(empleados.getDni());
 
-        boolean expReg = empleadosModel.getDni().matches("[0-9]{8}[A-Z]");
+        boolean expReg = empleados.getDni().matches("[0-9]{8}[A-Z]");
         if(emptyName || emptySurname)
         {
             throw new NoContentException("Un dato del empleado esta vacio");
@@ -72,13 +76,14 @@ public class EmpleadosService {
             throw new BadRequestException("El dni no cumple con el patron");
         }
 
-EmpleadosModel emp= empleadosRepository.save(empleadosModel);
+        Empleados emp= empleadosRepository.save(empleados);
 
         return emp;
 
     }
 
 
+    @Override
     public void deleteEmpleados(String dni){
         getEmpleados(dni);
 

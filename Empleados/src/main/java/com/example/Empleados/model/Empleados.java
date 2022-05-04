@@ -1,4 +1,4 @@
-package com.example.Empleados.models;
+package com.example.Empleados.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(value = "Empleados")
 @Data
 @AllArgsConstructor
-public class EmpleadosModel {
+public class Empleados {
 
 @Id
     private String dni;
@@ -18,7 +18,7 @@ public class EmpleadosModel {
 
     private String apellidos;
 
-    public EmpleadosModel() {
+    public Empleados() {
 
     }
 }
