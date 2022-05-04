@@ -4,7 +4,7 @@ package com.example.Empleados.service;
 import com.example.Empleados.exception.BadRequestException;
 import com.example.Empleados.exception.NoContentException;
 import com.example.Empleados.exception.NotFoundException;
-import com.example.Empleados.interfaze.EmpleadosIn;
+import com.example.Empleados.interfaze.EmpleadosInterface;
 import com.example.Empleados.model.Empleados;
 import com.example.Empleados.repository.EmpleadosRepository;
 import org.apache.commons.lang3.StringUtils;
@@ -18,7 +18,7 @@ import java.util.Optional;
 @Service
 
 
-public class EmpleadosServiceImp implements EmpleadosIn {
+public class EmpleadosServiceImp implements EmpleadosInterface {
 
     @Autowired
     private EmpleadosRepository empleadosRepository;

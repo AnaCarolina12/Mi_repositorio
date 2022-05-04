@@ -5,9 +5,10 @@ import com.example.Empleados.repository.EmpleadosRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -16,15 +17,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 
-@WebMvcTest(EmpleadosServiceImp.class)
+
 class EmpleadosServiceImpTest {
 
-    @MockBean
+    @Mock
     private EmpleadosRepository empleadosRepository;
 
     @InjectMocks
     private EmpleadosServiceImp empleadosServiceImp;
-    @InjectMocks
+    @Autowired
     private Empleados empleados;
 
 
@@ -42,6 +43,7 @@ class EmpleadosServiceImpTest {
 
     @Test
     void getAllEmpleados() {
+
 
         when(empleadosRepository.findAll()).thenReturn(Arrays.asList(empleados));
         assertNotNull(empleadosServiceImp.getAllEmpleados());
