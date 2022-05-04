@@ -105,11 +105,12 @@ public interface EmpleadosApi {
         return getDelegate().empleadosPost(empleados);
     }
 
+
     List<Empleados> getAllEmpleados();
 
-    Empleados getEmpleado(@PathVariable String dni);
+    Empleados getEmpleado(String dni);
 
-    void addUpdateEmpleados(@RequestBody com.example.Empleados.models.Empleados empleadosModel);
+    void addUpdateEmpleados(com.example.Empleados.models.Empleados empleadosModel);
 
     void deleteEmpelados(@PathVariable String dni);
 }

@@ -16,12 +16,12 @@ import java.util.*;
 
 @Service
 
-public class EmpleadosServiceImp implements EmpleadosIn {
+public class EmpleadosServiceImp {
 
     @Autowired
     private EmpleadosRepository empleadosRepository;
 
-    @Override
+
     public  List<Empleados> getAllEmpleados(){
 
         List<Empleados> empleadosgetlista=empleadosRepository.findAll();
@@ -35,7 +35,7 @@ public class EmpleadosServiceImp implements EmpleadosIn {
     }
 
 
-    @Override
+
     public Empleados getEmpleados(String dni){
 
         Optional<Empleados> listar=empleadosRepository.findById(dni);
@@ -49,7 +49,7 @@ public class EmpleadosServiceImp implements EmpleadosIn {
     }
 
 
-    @Override
+
     public void addUpdateEmpleados(Empleados empleadosModel){
 
         //La clase java.lang.String ofrece un conjunto limitado de métodos String.
@@ -78,7 +78,7 @@ public class EmpleadosServiceImp implements EmpleadosIn {
     }
 
 
-    @Override
+
     public void deleteEmpleados(String dni){
 
             getEmpleados(dni);
