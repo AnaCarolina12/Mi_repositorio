@@ -7,7 +7,6 @@ import com.example.Empleados.exception.NotFoundException;
 import com.example.Empleados.interfaze.EmpleadosIn;
 import com.example.Empleados.model.Empleados;
 import com.example.Empleados.repository.EmpleadosRepository;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+
 
 public class EmpleadosServiceImp implements EmpleadosIn {
 
