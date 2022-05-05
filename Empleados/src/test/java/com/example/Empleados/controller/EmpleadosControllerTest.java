@@ -32,7 +32,7 @@ class EmpleadosControllerTest{
     @InjectMocks
     private EmpleadosController empleadosController;
 
-    @Autowired
+
  private Empleados empleados;
 
 
@@ -52,37 +52,73 @@ class EmpleadosControllerTest{
 
    @Test
    void getAllEmpleados() {
+   Empleados empleados2 = new Empleados();
 
-    when(empleadosServiceImp.getAllEmpleados()).thenReturn(Arrays.asList(empleados));
+       empleados2.setDni("33289120T");
+       empleados2.setNombre("Messi");
+       empleados2.setApellidos("Cruz");
+
+    when(empleadosServiceImp.getAllEmpleados()).thenReturn(Arrays.asList(empleados,empleados2));
     List<Empleados> response = empleadosController.getAllEmpleados();
     assertNotNull(response);
-    assertEquals((Arrays.asList(empleados)),response);
+
+    assertEquals(response,Arrays.asList(empleados,empleados2));
 
    }
     @Test
     void getEmpleado() {
 
-    when(empleadosServiceImp.getEmpleados(empleados.getDni())).thenReturn(empleados);
-     Empleados response = empleadosController.getEmpleado(empleados.getDni());
+        Empleados empleados2 = new Empleados();
+
+        empleados2.setDni("11111111T");
+        empleados2.setNombre("Carolina");
+        empleados2.setApellidos("Martinez");
+
+        Empleados empleados3 = new Empleados();
+
+        empleados3.setDni("22222222T");
+        empleados3.setNombre("Jacob");
+        empleados3.setApellidos("Miranda");
+
+    when(empleadosServiceImp.getEmpleados(empleados3.getDni())).thenReturn(empleados3);
+        when(empleadosServiceImp.getEmpleados(empleados2.getDni())).thenReturn(empleados2);
+
+     Empleados response = empleadosController.getEmpleado(empleados3.getDni());
      assertNotNull(response);
-     assertEquals(empleados,response);
+     assertEquals(empleados3,response);
 
  }
 
    @Test
    void addUpdateEmpleados() {
 
+       Empleados empleados = new Empleados();
+
+       empleados.setDni("44444444T");
+       empleados.setNombre("CarolinaUpdate");
+       empleados.setApellidos("Martinez");
+
+
     when(empleadosServiceImp.addUpdateEmpleados(empleados)).thenReturn(empleados);
+
        Empleados response=empleadosController.addUpdateEmpleados(empleados);
+
     assertNotNull(response);
-    assertEquals(empleados,response);
+       assertEquals(empleados,response);
+
 
    }
 
    @Test
    void deleteEmpelados() {
 
-    doNothing().when(empleadosServiceImp).deleteEmpleados(empleados.getDni());
+       Empleados empleados = new Empleados();
+
+       empleados.setDni("44444444T");
+       empleados.setNombre("CarolinaUpdate");
+       empleados.setApellidos("Martinez");
+
+    //doNothing().when(empleadosServiceImp).deleteEmpleados(empleados.getDni());
     empleadosController.deleteEmpelados(empleados.getDni());
 
     verify(empleadosServiceImp).deleteEmpleados(empleados.getDni());

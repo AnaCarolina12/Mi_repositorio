@@ -85,7 +85,6 @@ public class EmpleadosServiceImp implements EmpleadosInterface {
     @Override
     public void deleteEmpleados(String dni){
         getEmpleados(dni);
-
         empleadosRepository.deleteById(dni);
 
     }

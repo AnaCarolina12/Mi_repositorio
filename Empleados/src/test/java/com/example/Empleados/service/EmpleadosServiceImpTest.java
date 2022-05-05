@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,7 +27,7 @@ class EmpleadosServiceImpTest {
 
     @InjectMocks
     private EmpleadosServiceImp empleadosServiceImp;
-    @Autowired
+
     private Empleados empleados;
 
 
@@ -44,38 +45,73 @@ class EmpleadosServiceImpTest {
 
     @Test
     void getAllEmpleados() {
+        Empleados empleados = new Empleados();
 
+        empleados.setDni("44444444T");
+        empleados.setNombre("CarolinaUpdate");
+        empleados.setApellidos("Martinez");
 
-        when(empleadosRepository.findAll()).thenReturn(Arrays.asList(empleados));
+        Empleados empleados2 = new Empleados();
+
+        empleados2.setDni("11111111T");
+        empleados2.setNombre("Carolina");
+        empleados2.setApellidos("Martinez");
+
+        when(empleadosRepository.findAll()).thenReturn(Arrays.asList(empleados,empleados2));
         assertNotNull(empleadosServiceImp.getAllEmpleados());
-        //assertEquals(Collections.emptyList(),Arrays.asList(empleados));
+        List<Empleados> response = empleadosServiceImp.getAllEmpleados();
+        assertEquals(Arrays.asList(empleados,empleados2),response);
 
     }
 
     @Test
     void getEmpleados() {
 
-        when(empleadosRepository.findById(empleados.getDni())).
-                thenReturn(Optional.ofNullable(empleados));
-        assertNotNull(empleadosServiceImp.getEmpleados(empleados.getDni()));
+        Empleados empleados = new Empleados();
+
+        empleados.setDni("44444444T");
+        empleados.setNombre("CarolinaUpdate");
+        empleados.setApellidos("Martinez");
+
+        Empleados empleados2 = new Empleados();
+
+        empleados2.setDni("11111111T");
+        empleados2.setNombre("Carolina");
+        empleados2.setApellidos("Martinez");
+
+
+        when(empleadosRepository.findById(empleados2.getDni())).
+                thenReturn(Optional.ofNullable(empleados2));
+        Empleados response = empleadosServiceImp.getEmpleados(empleados2.getDni());
+
+        assertNotNull(empleadosServiceImp.getEmpleados(empleados2.getDni()));
+        assertEquals(empleados2,response);
     }
 
     @Test
     void addUpdateEmpleados(){
 
         when(empleadosRepository.save(empleados)).thenReturn(empleados);
+        Empleados response = empleadosServiceImp.addUpdateEmpleados(empleados);
+
         assertNotNull(empleadosServiceImp.addUpdateEmpleados(empleados));
-
-
-
+        assertEquals(empleados,response);
     }
 
 
     @Test
     void deleteEmpleados(){
 
+        Empleados empleados = new Empleados();
+
+        empleados.setDni("44444444T");
+        empleados.setNombre("CarolinaUpdate");
+        empleados.setApellidos("Martinez");
+
+
         when(empleadosRepository.findById(empleados.getDni())).
                 thenReturn(Optional.ofNullable(empleados));
+
        empleadosServiceImp.deleteEmpleados(empleados.getDni());
 
         verify(empleadosRepository).deleteById(empleados.getDni());
