@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -37,7 +38,15 @@ class EmpleadosControllerTest{
 
   @BeforeEach
   void setUp(){
-   MockitoAnnotations.openMocks(this);
+      MockitoAnnotations.openMocks(this);
+
+      empleados = new Empleados();
+
+      empleados.setDni("33289120T");
+      empleados.setNombre("Messi");
+      empleados.setApellidos("Cruz");
+
+
 
   }
 

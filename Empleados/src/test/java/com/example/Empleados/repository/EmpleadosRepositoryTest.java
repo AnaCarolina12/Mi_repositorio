@@ -8,24 +8,24 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 
-import java.util.Arrays;
+
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 
+@DataMongoTest//
 
 class EmpleadosRepositoryTest {
-    @Mock
+    @Autowired
     private EmpleadosRepository empleadosRepository;
 
-    @Autowired
     private Empleados empleados;
 
     @BeforeEach
@@ -34,9 +34,10 @@ class EmpleadosRepositoryTest {
 
         empleados = new Empleados();
 
-        empleados.setNombre("Marianza");
-        empleados.setApellidos("Juanjo");
-        empleados.setDni("12315978T");
+        empleados.setDni("33289120T");
+        empleados.setNombre("Messi");
+        empleados.setApellidos("Cruz");
+
 
     }
 
@@ -44,45 +45,52 @@ class EmpleadosRepositoryTest {
     @Test
     void findAll() {
 
-        when(empleadosRepository.findAll()).thenReturn(Arrays.asList(empleados));
-        assertNotNull(empleadosRepository.findAll());
+        empleadosRepository.save(empleados);
+        List<Empleados> empleadosList=  empleadosRepository.findAll();
+
+        assertNotNull(empleadosList);
+        //assertEquals("12315978T",empleadosList);
+
 
 
     }
 
     @Test
     void findById() {
-       // Optional<Empleados> r = empleadosRepository.findById(empleados.getDni());
-        when(empleadosRepository.findById(empleados.getDni())).thenReturn(Optional.ofNullable(empleados));
 
-        assertNotNull(empleadosRepository.findById(empleados.getDni()));
+
+        empleadosRepository.save(empleados);
+
+       Optional<Empleados> empleado = empleadosRepository.findById(empleados.getDni());
+        //Empleados empleados2=new Empleados();
+        assertNotNull(empleado);
+     //assertEquals(null,r.get().getDni());
+
     }
 
     @Test
     void save() {
 
-        //Empleados domar = empleadosRepository.save(empleados);
+        empleadosRepository.save(empleados);
+        Optional<Empleados> empleado = empleadosRepository.findById(empleados.getDni());
 
-        when(empleadosRepository.save(empleados)).thenReturn(empleados);
+        assertNotNull(empleado);
+   // assertEquals(null,empleado);
 
-              assertNotNull(empleadosRepository.save(empleados));
-        verify(empleadosRepository).deleteById(empleados.getDni());
+
 
     }
 
 
     @Test
     void deleteById() {
+    empleadosRepository.save(empleados);
+    empleadosRepository.deleteById(empleados.getDni());
+        Optional<Empleados> empleado = empleadosRepository.findById(empleados.getDni());
 
+        assertEquals(Optional.empty(),empleado);
 
-
-        verify(empleadosRepository).deleteById(empleados.getDni());
 
     }
-
-
-
-
-
 
 }
