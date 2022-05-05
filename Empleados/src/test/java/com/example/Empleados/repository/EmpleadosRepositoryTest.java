@@ -66,8 +66,8 @@ class EmpleadosRepositoryTest {
 
         empleadosRepository.save(empleados);
         empleadosRepository.save(empleados2);
-        List<Empleados> empleadosList=  empleadosRepository.findAll();
 
+        List<Empleados> empleadosList=  empleadosRepository.findAll();
 
         assertNotNull(empleadosList);
 
