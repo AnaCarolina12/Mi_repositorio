@@ -7,8 +7,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 
 @Document(value = "Empleados")
-@Data
-@AllArgsConstructor
+@Data//anotación que genera los getter y setter y la configuracion de atributos(toString,hashcode...)
+@AllArgsConstructor//genera un consrtuctor de los paramaetros de una clase
 public class Empleados {
 
     @Id

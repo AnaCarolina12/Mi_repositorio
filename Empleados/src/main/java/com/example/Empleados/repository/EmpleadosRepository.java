@@ -10,15 +10,13 @@ import java.util.Optional;
 @Repository
 public interface EmpleadosRepository extends MongoRepository<Empleados,String> {
 
-    @Override
+
     void deleteById(String s);
 
-    @Override
     List<Empleados> findAll();
 
-    @Override
-    <S extends Empleados> S save(S entity);
+    Empleados save(Empleados empleados);
 
-    @Override
+
     Optional<Empleados> findById(String s);
 }
