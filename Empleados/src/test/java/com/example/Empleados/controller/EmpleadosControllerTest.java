@@ -41,11 +41,7 @@ class EmpleadosControllerTest{
    @Test
    void getAllEmpleados() {
 
-      Empleados empleados = new Empleados();
-
-       empleados.setNombre("Marianza");
-       empleados.setApellidos("Juanjo");
-       empleados.setDni("12315978T");
+      Empleados empleados = getEmpleadosModel();
 
    Empleados empleados2 = new Empleados();
 
@@ -69,30 +65,20 @@ class EmpleadosControllerTest{
         empleados.setNombre("Carolina");
         empleados.setApellidos("Martinez");
 
-        Empleados empleados2 = new Empleados();
-
-        empleados2.setDni("22222222T");
-        empleados2.setNombre("Jacob");
-        empleados2.setApellidos("Miranda");
 
     when(empleadosServiceImp.getEmpleados(empleados.getDni())).thenReturn(empleados);
-        when(empleadosServiceImp.getEmpleados(empleados2.getDni())).thenReturn(empleados2);
+        when(empleadosServiceImp.getEmpleados(empleados.getDni())).thenReturn(empleados);
 
-     Empleados response = empleadosController.getEmpleado(empleados2.getDni());
+     Empleados response = empleadosController.getEmpleado(empleados.getDni());
      assertNotNull(response);
-     assertEquals(empleados2,response);
+     assertEquals(empleados,response);
 
  }
 
    @Test
    void addUpdateEmpleados() {
 
-       Empleados empleados = new Empleados();
-
-       empleados.setDni("44444444T");
-       empleados.setNombre("CarolinaUpdate");
-       empleados.setApellidos("Martinez");
-
+       Empleados empleados = getEmpleadosModel();
 
     when(empleadosServiceImp.addUpdateEmpleados(empleados)).thenReturn(empleados);
 
@@ -107,18 +93,20 @@ class EmpleadosControllerTest{
    @Test
    void deleteEmpelados() {
 
-       Empleados empleados = new Empleados();
-
-       empleados.setDni("44444444T");
-       empleados.setNombre("CarolinaUpdate");
-       empleados.setApellidos("Martinez");
+       Empleados empleados = getEmpleadosModel();
 
     //doNothing().when(empleadosServiceImp).deleteEmpleados(empleados.getDni());
     empleadosController.deleteEmpelados(empleados.getDni());
 
     verify(empleadosServiceImp).deleteEmpleados(empleados.getDni());
-
-
    }
+    private Empleados getEmpleadosModel(){
+        Empleados empleados = new Empleados();
+
+        empleados.setDni("44444444T");
+        empleados.setNombre("CarolinaUpdate");
+        empleados.setApellidos("Martinez");
+        return empleados;
+    }
 
 }
