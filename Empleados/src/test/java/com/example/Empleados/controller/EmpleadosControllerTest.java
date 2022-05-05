@@ -61,16 +61,15 @@ class EmpleadosControllerTest{
 
         Empleados empleados = new Empleados();
 
-        empleados.setDni("11111111T");
-        empleados.setNombre("Carolina");
+        empleados.setDni("55567851T");
+        empleados.setNombre("CarolinaUpdate");
         empleados.setApellidos("Martinez");
 
 
     when(empleadosServiceImp.getEmpleados(empleados.getDni())).thenReturn(empleados);
-        when(empleadosServiceImp.getEmpleados(empleados.getDni())).thenReturn(empleados);
-
      Empleados response = empleadosController.getEmpleado(empleados.getDni());
      assertNotNull(response);
+
      assertEquals(empleados,response);
 
  }
@@ -95,7 +94,6 @@ class EmpleadosControllerTest{
 
        Empleados empleados = getEmpleadosModel();
 
-    //doNothing().when(empleadosServiceImp).deleteEmpleados(empleados.getDni());
     empleadosController.deleteEmpelados(empleados.getDni());
 
     verify(empleadosServiceImp).deleteEmpleados(empleados.getDni());

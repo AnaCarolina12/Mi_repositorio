@@ -98,12 +98,10 @@ class EmpleadosServiceImpTest {
 
         Empleados empleados =  getEmpleadosModel();
 
-
         when(empleadosRepository.findById(empleados.getDni())).
                 thenReturn(Optional.ofNullable(empleados));
 
        empleadosServiceImp.deleteEmpleados(empleados.getDni());
-
         verify(empleadosRepository).deleteById(empleados.getDni());
 
     }
