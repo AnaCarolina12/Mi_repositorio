@@ -8,10 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+
 
 
 
@@ -32,15 +29,12 @@ class EmpleadosControllerTest{
     @InjectMocks
     private EmpleadosController empleadosController;
 
-
- private Empleados empleados;
+    private Empleados empleados;
 
 
   @BeforeEach
   void setUp(){
       MockitoAnnotations.openMocks(this);
-
-
 
   }
 
@@ -69,24 +63,24 @@ class EmpleadosControllerTest{
     @Test
     void getEmpleado() {
 
+        Empleados empleados = new Empleados();
+
+        empleados.setDni("11111111T");
+        empleados.setNombre("Carolina");
+        empleados.setApellidos("Martinez");
+
         Empleados empleados2 = new Empleados();
 
-        empleados2.setDni("11111111T");
-        empleados2.setNombre("Carolina");
-        empleados2.setApellidos("Martinez");
+        empleados2.setDni("22222222T");
+        empleados2.setNombre("Jacob");
+        empleados2.setApellidos("Miranda");
 
-        Empleados empleados3 = new Empleados();
-
-        empleados3.setDni("22222222T");
-        empleados3.setNombre("Jacob");
-        empleados3.setApellidos("Miranda");
-
-    when(empleadosServiceImp.getEmpleados(empleados3.getDni())).thenReturn(empleados3);
+    when(empleadosServiceImp.getEmpleados(empleados.getDni())).thenReturn(empleados);
         when(empleadosServiceImp.getEmpleados(empleados2.getDni())).thenReturn(empleados2);
 
-     Empleados response = empleadosController.getEmpleado(empleados3.getDni());
+     Empleados response = empleadosController.getEmpleado(empleados2.getDni());
      assertNotNull(response);
-     assertEquals(empleados3,response);
+     assertEquals(empleados2,response);
 
  }
 
