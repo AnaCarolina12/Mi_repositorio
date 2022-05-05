@@ -35,11 +35,7 @@ class EmpleadosServiceImpTest {
     @BeforeEach
     void setUp(){
         MockitoAnnotations.openMocks(this);
-        empleados = new Empleados();
 
-        empleados.setNombre("Marianza");
-        empleados.setApellidos("Juanjo");
-        empleados.setDni("12315978T");
 
     }
 
@@ -90,6 +86,12 @@ class EmpleadosServiceImpTest {
 
     @Test
     void addUpdateEmpleados(){
+
+      Empleados  empleados = new Empleados();
+
+        empleados.setNombre("Marianza");
+        empleados.setApellidos("Juanjo");
+        empleados.setDni("12315978T");
 
         when(empleadosRepository.save(empleados)).thenReturn(empleados);
         Empleados response = empleadosServiceImp.addUpdateEmpleados(empleados);

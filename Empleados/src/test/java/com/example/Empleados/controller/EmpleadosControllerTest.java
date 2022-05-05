@@ -40,18 +40,19 @@ class EmpleadosControllerTest{
   void setUp(){
       MockitoAnnotations.openMocks(this);
 
-      empleados = new Empleados();
-
-      empleados.setDni("33289120T");
-      empleados.setNombre("Messi");
-      empleados.setApellidos("Cruz");
-
 
 
   }
 
    @Test
    void getAllEmpleados() {
+
+      Empleados empleados = new Empleados();
+
+       empleados.setNombre("Marianza");
+       empleados.setApellidos("Juanjo");
+       empleados.setDni("12315978T");
+
    Empleados empleados2 = new Empleados();
 
        empleados2.setDni("33289120T");

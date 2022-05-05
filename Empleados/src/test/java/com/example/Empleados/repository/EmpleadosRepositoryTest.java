@@ -40,11 +40,7 @@ class EmpleadosRepositoryTest {
     void setUp(){
         MockitoAnnotations.openMocks(this);
 
-        empleados = new Empleados();
 
-        empleados.setDni("33289120T");
-        empleados.setNombre("Messi");
-        empleados.setApellidos("Cruz");
 
     }
 
@@ -84,15 +80,17 @@ class EmpleadosRepositoryTest {
 
         Empleados empleados2=new Empleados();
         empleados2.setDni("12341678T");
-        empleados2.setNombre("Menas");
+        empleados2.setNombre("Lorenzo");
         empleados2.setApellidos("Martinez");
+
+
         empleadosRepository.save(empleados);
         empleadosRepository.save(empleados2);
 
-       Optional<Empleados> response = empleadosRepository.findById(empleados2.getDni());
+       Empleados response = empleadosRepository.findById(empleados2.getDni()).get();
 
         assertNotNull(response);
-     //assertEquals(null,r.get().getDni());
+     assertEquals(empleados2,response);
 
     }
 
@@ -100,7 +98,7 @@ class EmpleadosRepositoryTest {
     void save() {
 
         Empleados empleados=new Empleados();
-        empleados.setDni("12341678T");
+        empleados.setDni("11341678T");
         empleados.setNombre("Menas");
         empleados.setApellidos("Martinez");
 
@@ -117,7 +115,15 @@ class EmpleadosRepositoryTest {
 
     @Test
     void deleteById() {
+
+       Empleados empleados = new Empleados();
+
+        empleados.setDni("33289120T");
+        empleados.setNombre("Messi");
+        empleados.setApellidos("Cruz");
+
         empleadosRepository.save(empleados);
+        
         empleadosRepository.deleteById(empleados.getDni());
         Optional<Empleados> empleado = empleadosRepository.findById(empleados.getDni());
 
