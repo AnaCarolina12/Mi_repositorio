@@ -89,9 +89,9 @@ class EmpleadosRepositoryTest {
         empleadosRepository.save(empleados);
         empleadosRepository.save(empleados2);
 
-       Optional<Empleados> empleado = empleadosRepository.findById(empleados2.getDni());
+       Optional<Empleados> response = empleadosRepository.findById(empleados2.getDni());
 
-        assertNotNull(empleado);
+        assertNotNull(response);
      //assertEquals(null,r.get().getDni());
 
     }
