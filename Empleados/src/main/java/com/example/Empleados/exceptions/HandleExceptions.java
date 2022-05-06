@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class HandleExceptions {
 
-  @ExceptionHandler
+  @ExceptionHandler(NoContentException.class)
   public ResponseEntity<ErrorObject> handlerNoContentException(NoContentException e) {
     ErrorObject errorObject = new ErrorObject();
     errorObject.setMessage(e.getMessage());
@@ -20,7 +20,7 @@ public class HandleExceptions {
 
   }
 
-  @ExceptionHandler
+  @ExceptionHandler(NotFoundException.class)
   public ResponseEntity<ErrorObject> handlerNotFoundException(NotFoundException e) {
     ErrorObject errorObject = new ErrorObject();
     errorObject.setMessage(e.getMessage());
@@ -31,7 +31,7 @@ public class HandleExceptions {
 
   }
 
-  @ExceptionHandler
+  @ExceptionHandler(BadRequestException.class)
   public ResponseEntity<ErrorObject> handlerBadRequestException(BadRequestException e) {
     ErrorObject errorObject = new ErrorObject();
     errorObject.setMessage(e.getMessage());
