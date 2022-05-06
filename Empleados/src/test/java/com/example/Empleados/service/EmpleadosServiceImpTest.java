@@ -1,5 +1,14 @@
 package com.example.Empleados.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
 import com.example.Empleados.model.Empleados;
 import com.example.Empleados.repository.EmpleadosRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,112 +17,79 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
-
-
 class EmpleadosServiceImpTest {
 
-    @Mock
-    private EmpleadosRepository empleadosRepository;
+  @Mock
+  private EmpleadosRepository empleadosRepository;
 
-    @InjectMocks
-    private EmpleadosServiceImp empleadosServiceImp;
+  @InjectMocks
+  private EmpleadosServiceImp empleadosServiceImp;
 
-    private Empleados empleados;
+  @BeforeEach
+  void setUp() {
+    MockitoAnnotations.openMocks(this);
 
+  }
 
+  @Test
+  void getAllEmpleados() {
+    Empleados empleados = getEmpleadosModel("11111111P", "Martinez", "Romero");
+    Empleados empleados2 = getEmpleadosModel("55567851T", "CarolinaUpdate", "Martinez");
 
-    @BeforeEach
-    void setUp(){
-        MockitoAnnotations.openMocks(this);
+    when(empleadosRepository.findAll()).thenReturn(Arrays.asList(empleados, empleados2));
+    List<Empleados> response = empleadosServiceImp.getAllEmpleados();
 
-    }
+    assertNotNull(response);
+    assertEquals(Arrays.asList(empleados, empleados2), response);
 
-    @Test
-    void getAllEmpleados() {
-        Empleados empleados = getEmpleadosModel();
+  }
 
-        Empleados empleados2 = new Empleados();
+  @Test
+  void getEmpleados() {
 
-        empleados2.setDni("11111111T");
-        empleados2.setNombre("Carolina");
-        empleados2.setApellidos("Martinez");
+    Empleados empleados = getEmpleadosModel("22222222P", "Martinez", "Romero");
 
-        when(empleadosRepository.findAll()).thenReturn(Arrays.asList(empleados,empleados2));
+    when(empleadosRepository.findById(empleados.getDni())).thenReturn(Optional.ofNullable(empleados));
+    Empleados response = empleadosServiceImp.getEmpleados(empleados.getDni());
 
+    assertNotNull(response);
+    assertEquals(empleados, response);
+  }
 
-        List<Empleados> response = empleadosServiceImp.getAllEmpleados();
-        assertNotNull(response);
-        assertEquals(Arrays.asList(empleados,empleados2),response);
+  @Test
+  void addUpdateEmpleados() {
+    //Creacion de objetos
+    Empleados empleados = getEmpleadosModel("33289120T", "Messi", "Cruz");
+    //Definicion de mocikto
+    when(empleadosRepository.save(empleados)).thenReturn(empleados);
+    //Llamada al metodos
+    Empleados response = empleadosServiceImp.addUpdateEmpleados(empleados);
+    //comprobaciones
+    assertNotNull(response);
+    assertEquals(empleados, response);
+  }
 
-    }
+  @Test
+  void deleteEmpleados() {
 
-    @Test
-    void getEmpleados() {
+    Empleados empleados = getEmpleadosModel("55567851T", "CarolinaUpdate", "Martinez");
 
+    when(empleadosRepository.findById(empleados.getDni())).thenReturn(Optional.ofNullable(empleados));
+    empleadosServiceImp.deleteEmpleados(empleados.getDni());
 
-        Empleados empleados = new Empleados();
+    verify(empleadosRepository).deleteById(empleados.getDni());
 
-        empleados.setDni("11111111T");
-        empleados.setNombre("Carolina");
-        empleados.setApellidos("Martinez");
+  }
 
+  private Empleados getEmpleadosModel(String dni, String nombre, String apellidos) {
+    Empleados empleados = new Empleados();
 
-        when(empleadosRepository.findById(empleados.getDni())).
-                thenReturn(Optional.ofNullable(empleados));
-
-        Empleados response = empleadosServiceImp.getEmpleados(empleados.getDni());
-
-        assertNotNull(response);
-        assertEquals(empleados,response);
-    }
-
-    @Test
-    void addUpdateEmpleados(){
-
-      Empleados  empleados = new Empleados();
-
-        empleados.setNombre("Marianza");
-        empleados.setApellidos("Juanjo");
-        empleados.setDni("12315978T");
-
-        when(empleadosRepository.save(empleados)).thenReturn(empleados);
-        Empleados response = empleadosServiceImp.addUpdateEmpleados(empleados);
-
-        assertNotNull( response);
-        assertEquals(empleados,response);
-    }
-
-
-    @Test
-    void deleteEmpleados(){
-
-        Empleados empleados =  getEmpleadosModel();
-
-        when(empleadosRepository.findById(empleados.getDni())).
-                thenReturn(Optional.ofNullable(empleados));
-
-       empleadosServiceImp.deleteEmpleados(empleados.getDni());
-        verify(empleadosRepository).deleteById(empleados.getDni());
-
-    }
-
-    private Empleados getEmpleadosModel(){
-        Empleados empleados = new Empleados();
-
-        empleados.setDni("44444444T");
-        empleados.setNombre("CarolinaUpdate");
-        empleados.setApellidos("Martinez");
-        return empleados;
-    }
+    empleados.setDni(dni);
+    empleados.setNombre(nombre);
+    empleados.setApellidos(apellidos);
+    
+    return empleados;
+  }
 
 
 }
