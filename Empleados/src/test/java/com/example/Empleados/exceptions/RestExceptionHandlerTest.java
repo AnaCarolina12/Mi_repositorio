@@ -2,12 +2,22 @@ package com.example.Empleados.exceptions;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.example.Empleados.repository.EmpleadosRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.web.servlet.MockMvc;
 
 class RestExceptionHandlerTest {
+
+  @Mock
+  private EmpleadosRepository empleadosRepository;
+
+  @Autowired
+  private MockMvc mvc;
 
   @BeforeEach
   void setUp() {
@@ -16,9 +26,9 @@ class RestExceptionHandlerTest {
   }
 
   @Test
-  void handlerNoContentException() {
+  void handlerNoContentException() throws Exception {
 
-    NoContentException e = new NoContentException("Un dato del empleado esta vacio");
+    NoContentException e = new NoContentException("dszx");
     ErrorObject errorObject = getErrorObjectModel(e, HttpStatus.NO_CONTENT.value(), HttpStatus.NO_CONTENT);
 
     assertNotNull(errorObject.getMessage());
@@ -27,16 +37,14 @@ class RestExceptionHandlerTest {
 
     assertNotNull(errorObject);
 
-
   }
 
   @Test
-  void handlerNotFoundException() {
+  void handlerNotFoundException() throws Exception {
 
     NotFoundException e = new NotFoundException("No existe dicho dni");
     ErrorObject errorObject = getErrorObjectModel(e, HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND);
 
-    assertNotNull(errorObject);
 
   }
 
@@ -44,7 +52,6 @@ class RestExceptionHandlerTest {
   void handlerBadRequestException() {
     BadRequestException e = new BadRequestException("El dni no cumple con el patron");
     ErrorObject errorObject = getErrorObjectModel(e, HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST);
-
 
   }
 

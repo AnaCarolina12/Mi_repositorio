@@ -55,11 +55,17 @@ public class EmpleadosServiceImp implements EmpleadosInterface {
     boolean expReg = empleados.getDni().matches("[0-9]{8}[A-Z]");
 
     if (emptyName || emptySurname) {
+
       throw new NoContentException("Un dato del empleado esta vacio");
+
     } else if (emptyDni) {
+
       throw new NoContentException("El dni del empleado esta vacio");
+
     } else if (!expReg) {
+
       throw new BadRequestException("El dni no cumple con el patron");
+
     }
 
     Empleados emp = empleadosRepository.save(empleados);
