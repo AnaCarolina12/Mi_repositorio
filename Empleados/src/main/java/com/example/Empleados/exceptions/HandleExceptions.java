@@ -8,30 +8,30 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class HandleExceptions {
 
-  @ExceptionHandler(NoContentException.class)
+  @ExceptionHandler(value = NoContentException.class)
   public ResponseEntity<ErrorObject> handlerNoContentException(NoContentException e) {
     ErrorObject errorObject = new ErrorObject();
     errorObject.setMessage(e.getMessage());
     errorObject.setStatusCode(HttpStatus.NO_CONTENT.value());
     errorObject.setHttpStatus(HttpStatus.NO_CONTENT);
 
-    return new ResponseEntity<>(errorObject, HttpStatus.OK);
+    return new ResponseEntity<>(errorObject, HttpStatus.NO_CONTENT);
     //representa una respuesta HTTP, con encabezado , cuerpo y estado
 
   }
 
-  @ExceptionHandler(NotFoundException.class)
+  @ExceptionHandler(value = NotFoundException.class)
   public ResponseEntity<ErrorObject> handlerNotFoundException(NotFoundException e) {
     ErrorObject errorObject = new ErrorObject();
     errorObject.setMessage(e.getMessage());
     errorObject.setStatusCode(HttpStatus.NOT_FOUND.value());
     errorObject.setHttpStatus(HttpStatus.NOT_FOUND);
 
-    return new ResponseEntity<>(errorObject, HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(errorObject, HttpStatus.OK);
 
   }
 
-  @ExceptionHandler(BadRequestException.class)
+  @ExceptionHandler(value = BadRequestException.class)
   public ResponseEntity<ErrorObject> handlerBadRequestException(BadRequestException e) {
     ErrorObject errorObject = new ErrorObject();
     errorObject.setMessage(e.getMessage());

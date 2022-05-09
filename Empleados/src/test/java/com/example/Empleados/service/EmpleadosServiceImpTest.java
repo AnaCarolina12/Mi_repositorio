@@ -95,20 +95,24 @@ class EmpleadosServiceImpTest {
 
   @Test
   void ExceptiongetEmpleados() {
-    Empleados empleados = getEmpleadosModel("12345678L", "Messi", "Cruz");
+    //Empleados empleados = getEmpleadosModel("12345678L", "Messi", "Cruz");
 
+    //Exception que indica que el servidor no puede encontrar el recurso solicitado
     assertThrows(
         NotFoundException.class,
         () ->
-            empleadosServiceImp.getEmpleados(empleados.getDni()));
+            empleadosServiceImp.getEmpleados("123456789L"));
   }
 
   @Test
   void ExceptionaddUpdateEmpleados() {
     Empleados empleados = getEmpleadosModel("123456789P", "Messi", "Cruz");
     Empleados empleados2 = getEmpleadosModel("12345678P", "", "Broa");
+    Empleados empleados3 = getEmpleadosModel("", "Boris", "Broa");
 
     //comprobaciones
+    //Exception que indica que  el cliente ha cometido un error sintáctico en la llamada
+    //por lo que el servidor no puede procesar la peticion
     assertThrows(
         BadRequestException.class,
         () ->
@@ -121,6 +125,13 @@ class EmpleadosServiceImpTest {
         () ->
             //Llamada al metodo
             empleadosServiceImp.addUpdateEmpleados(empleados2)
+    );
+
+    assertThrows(
+        NoContentException.class,
+        () ->
+            //Llamada al metodo
+            empleadosServiceImp.addUpdateEmpleados(empleados3)
     );
 
 

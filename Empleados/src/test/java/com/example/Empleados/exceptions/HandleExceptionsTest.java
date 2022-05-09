@@ -1,23 +1,18 @@
 package com.example.Empleados.exceptions;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.verify;
 
-import com.example.Empleados.repository.EmpleadosRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.web.servlet.MockMvc;
 
-class RestExceptionHandlerTest {
+class HandleExceptionsTest {
 
   @Mock
-  private EmpleadosRepository empleadosRepository;
-
-  @Autowired
-  private MockMvc mvc;
+  private HandleExceptions handleExceptions;
 
   @BeforeEach
   void setUp() {
@@ -26,32 +21,47 @@ class RestExceptionHandlerTest {
   }
 
   @Test
-  void handlerNoContentException() throws Exception {
+  void NoContentException() {
 
-    NoContentException e = new NoContentException("dszx");
+    NoContentException e = new NoContentException("");
     ErrorObject errorObject = getErrorObjectModel(e, HttpStatus.NO_CONTENT.value(), HttpStatus.NO_CONTENT);
 
     assertNotNull(errorObject.getMessage());
     assertNotNull(errorObject.getStatusCode());
     assertNotNull(errorObject.getHttpStatus());
 
-    assertNotNull(errorObject);
 
   }
 
   @Test
-  void handlerNotFoundException() throws Exception {
+  void NotFoundException() {
 
-    NotFoundException e = new NotFoundException("No existe dicho dni");
+    NotFoundException e = new NotFoundException("");
     ErrorObject errorObject = getErrorObjectModel(e, HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND);
 
 
   }
 
   @Test
-  void handlerBadRequestException() {
-    BadRequestException e = new BadRequestException("El dni no cumple con el patron");
+  void BadRequestException() {
+    BadRequestException e = new BadRequestException("");
     ErrorObject errorObject = getErrorObjectModel(e, HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST);
+  }
+
+  @Test
+  void HandlerBadRequestException() {
+
+    BadRequestException e = new BadRequestException("Todo mal");
+    ErrorObject errorObject = getErrorObjectModel(e, HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST);
+
+    //assertEquals(21, handleExceptions.handlerBadRequestException(e));
+    // when(handleExceptions.handlerBadRequestException(e)).thenReturn(null);
+    verify(handleExceptions).handlerBadRequestException(e);
+
+  }
+
+  @Test
+  void handlerNotFoundException() {
 
   }
 
