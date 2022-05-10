@@ -4,17 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.HttpStatus;
 
 @AutoConfigureMockMvc
 class HandleExceptionsTest {
-
-  @Mock
-  private HandleExceptions handleExceptions;
-
+  
   @BeforeEach
   void setUp() {
     MockitoAnnotations.openMocks(this);
