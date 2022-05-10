@@ -1,15 +1,10 @@
 package com.example.Empleados.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(value = "Empleados")
-@Data//anotación que genera los getter y setter y la configuracion de atributos(toString,hashcode...)
-@AllArgsConstructor//genera un consrtuctor de los paramaetros de una clase
-@NoArgsConstructor
+
 public class Empleados {
 
   @Id
@@ -19,4 +14,37 @@ public class Empleados {
 
   private String apellidos;
 
+  public String getDni() {
+    return dni;
+  }
+
+  public void setDni(String dni) {
+    this.dni = dni;
+  }
+
+  public String getNombre() {
+    return nombre;
+  }
+
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
+
+  public String getApellidos() {
+    return apellidos;
+  }
+
+  public void setApellidos(String apellidos) {
+    this.apellidos = apellidos;
+  }
+
+  public Empleados(String dni, String nombre, String apellidos) {
+    this.dni = dni;
+    this.nombre = nombre;
+    this.apellidos = apellidos;
+  }
+
+  public Empleados() {
+  
+  }
 }
