@@ -1,14 +1,15 @@
 package com.example.Empleados.exceptions;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.HttpStatus;
 
+@AutoConfigureMockMvc
 class HandleExceptionsTest {
 
   @Mock
@@ -46,23 +47,6 @@ class HandleExceptionsTest {
   void BadRequestException() {
     BadRequestException e = new BadRequestException("");
     ErrorObject errorObject = getErrorObjectModel(e, HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST);
-  }
-
-  @Test
-  void HandlerBadRequestException() {
-
-    BadRequestException e = new BadRequestException("Todo mal");
-    ErrorObject errorObject = getErrorObjectModel(e, HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST);
-
-    //assertEquals(21, handleExceptions.handlerBadRequestException(e));
-    // when(handleExceptions.handlerBadRequestException(e)).thenReturn(null);
-    verify(handleExceptions).handlerBadRequestException(e);
-
-  }
-
-  @Test
-  void handlerNotFoundException() {
-
   }
 
   private ErrorObject getErrorObjectModel(Exception e, Integer statusCode, HttpStatus httpStatus) {
