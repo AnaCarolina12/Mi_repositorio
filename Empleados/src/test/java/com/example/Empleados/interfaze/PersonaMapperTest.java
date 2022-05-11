@@ -12,21 +12,18 @@ class PersonaMapperTest {
   private PersonaMapper mapper = Mappers.getMapper(PersonaMapper.class);
 
   @Test
-  void PersonaDTO() {
+  void Persona() {
     Persona persona = new Persona("Juan", "el grande");
-    PersonaDTO destination = mapper.personaDTOtoPersona(persona);
+    PersonaDTO personaDTO = mapper.personatoPersonaDTO(persona);
 
-    assertEquals(persona.getName(), destination.getName());
-    assertEquals(persona.getDescription(),
-        destination.getDescription());
+    assertEquals(persona.getName(), personaDTO.getName());
+
   }
 
   @Test
-  public void Persona() {
-    PersonaDTO destination = new PersonaDTO("Notrami", "el futbolista");
-    Persona source = mapper.personatoPersonaDTO(destination);
-    assertEquals(destination.getName(), source.getName());
-    assertEquals(destination.getDescription(),
-        source.getDescription());
+  public void PersonaDTO() {
+    PersonaDTO personaDTO = new PersonaDTO("Notrami", "el futbolista");
+    Persona persona = mapper.personaDTOtoPersona(personaDTO);
+    assertEquals(personaDTO.getName(), persona.getName());
   }
 }

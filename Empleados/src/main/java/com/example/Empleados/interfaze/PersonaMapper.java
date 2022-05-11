@@ -7,8 +7,8 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface PersonaMapper {
 
-  PersonaDTO personaDTOtoPersona(Persona source);
+  Persona personaDTOtoPersona(PersonaDTO personaDTO);
 
-  Persona personatoPersonaDTO(PersonaDTO destination);
+  PersonaDTO personatoPersonaDTO(Persona persona);
 
 }
