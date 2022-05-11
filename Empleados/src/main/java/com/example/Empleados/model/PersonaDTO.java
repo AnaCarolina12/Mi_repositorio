@@ -1,18 +1,19 @@
 package com.example.Empleados.model;
 
-public class SimpleSource {
+public class PersonaDTO {
 
   private String name;
 
   private String description;
 
-  public SimpleSource(String name, String description) {
+  public PersonaDTO(String name, String description) {
     this.name = name;
     this.description = description;
   }
 
-  public SimpleSource() {
-
+  public PersonaDTO() {
+    this.name = name;
+    this.description = description;
   }
 
   public String getName() {

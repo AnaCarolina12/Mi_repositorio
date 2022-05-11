@@ -1,19 +1,18 @@
 package com.example.Empleados.model;
 
-public class SimpleDestination {
+public class Persona {
 
   private String name;
 
   private String description;
 
-  public SimpleDestination(String name, String description) {
+  public Persona(String name, String description) {
     this.name = name;
     this.description = description;
   }
 
-  public SimpleDestination() {
-    this.name = name;
-    this.description = description;
+  public Persona() {
+
   }
 
   public String getName() {
