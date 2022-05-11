@@ -4,11 +4,11 @@ import com.example.Empleados.model.Persona;
 import com.example.Empleados.model.PersonaDTO;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "Spring")
+@Mapper
 public interface PersonaMapper {
 
-  PersonaDTO personaDTO(Persona source);
+  PersonaDTO personaDTOtoPersona(Persona source);
 
-  Persona persona(PersonaDTO destination);
+  Persona personatoPersonaDTO(PersonaDTO destination);
 
 }
