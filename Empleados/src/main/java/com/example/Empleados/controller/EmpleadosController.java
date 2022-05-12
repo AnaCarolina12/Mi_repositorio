@@ -2,11 +2,11 @@ package com.example.Empleados.controller;
 
 import java.util.List;
 
-import com.example.Empleados.dto.EmpleadosDTO;
 import com.example.Empleados.mapper.EmpleadosMapper;
 import com.example.Empleados.model.Empleados;
 import com.example.Empleados.service.EmpleadosServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,11 +19,12 @@ public class EmpleadosController {
 
   private EmpleadosMapper empleadosMapper;
 
-  //@GetMapping("/empleados")
-  public List<EmpleadosDTO> getAllEmpleados() {
+  @GetMapping("/empleados")
+  public List<Empleados> getAllEmpleados() {
 
-    return empleadosMapper.ListProductDTOs(empleadosServiceImp.getAllEmpleados());
-    //empleadosServiceImp.getAllEmpleados();
+    return empleadosServiceImp.getAllEmpleados();
+    //empleadosMapper.ListProductDTOs(empleadosServiceImp.getAllEmpleados());
+
   }
 
   //@GetMapping("/empleados/{dni}")
