@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 
 @Getter
 @Setter
+//No funcionan
 public class EmpleadosDTO {
 
   @Id
