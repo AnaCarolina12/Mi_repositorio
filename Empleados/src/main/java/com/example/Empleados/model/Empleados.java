@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(value = "Empleados")
 @Getter
 @Setter
-//No funcionan
+//No funcionan..correctamente
 public class Empleados {
 
   @Id
