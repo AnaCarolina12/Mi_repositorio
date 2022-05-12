@@ -2,8 +2,9 @@ package com.example.Empleados.interfaze;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.example.Empleados.dto.PersonaDTO;
+import com.example.Empleados.mapper.PersonaMapper;
 import com.example.Empleados.model.Persona;
-import com.example.Empleados.model.PersonaDTO;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 

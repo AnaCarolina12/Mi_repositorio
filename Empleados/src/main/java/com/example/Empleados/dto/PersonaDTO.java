@@ -1,4 +1,4 @@
-package com.example.Empleados.model;
+package com.example.Empleados.dto;
 
 public class PersonaDTO {
 

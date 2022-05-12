@@ -1,7 +1,7 @@
-package com.example.Empleados.interfaze;
+package com.example.Empleados.mapper;
 
+import com.example.Empleados.dto.PersonaDTO;
 import com.example.Empleados.model.Persona;
-import com.example.Empleados.model.PersonaDTO;
 import org.mapstruct.Mapper;
 
 @Mapper

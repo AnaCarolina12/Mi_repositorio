@@ -10,7 +10,6 @@ import com.example.Empleados.interfaze.EmpleadosInterface;
 import com.example.Empleados.model.Empleados;
 import com.example.Empleados.repository.EmpleadosRepository;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -18,10 +17,8 @@ import org.springframework.util.CollectionUtils;
 
 public class EmpleadosServiceImp implements EmpleadosInterface {
 
-  @Autowired
   private EmpleadosRepository empleadosRepository;
 
-  @Override
   public List<Empleados> getAllEmpleados() {
 
     List<Empleados> empleadosgetlista = empleadosRepository.findAll();
