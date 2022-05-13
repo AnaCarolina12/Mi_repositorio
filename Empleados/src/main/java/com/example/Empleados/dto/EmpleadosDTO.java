@@ -1,53 +1,27 @@
 package com.example.Empleados.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 
-/*
 @Getter
 @Setter
- */
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 
 //No funcionan..correctamente
 public class EmpleadosDTO {
 
   @Id
-  public String dni;
+  private String dni;
 
-  public String nombreEmpleado;
+  private String nombreEmpleado;
 
-  public String apellidos;
+  private String apellidos;
 
-  public EmpleadosDTO(String dni, String nombreEmpleado, String apellidos) {
-    this.dni = dni;
-    this.nombreEmpleado = nombreEmpleado;
-    this.apellidos = apellidos;
-  }
 
-  public EmpleadosDTO() {
-
-  }
-
-  public String getDni() {
-    return dni;
-  }
-
-  public void setDni(String dni) {
-    this.dni = dni;
-  }
-
-  public String getNombreEmpleado() {
-    return nombreEmpleado;
-  }
-
-  public void setNombreEmpleado(String nombreEmpleado) {
-    this.nombreEmpleado = nombreEmpleado;
-  }
-
-  public String getApellidos() {
-    return apellidos;
-  }
-
-  public void setApellidos(String apellidos) {
-    this.apellidos = apellidos;
-  }
 }

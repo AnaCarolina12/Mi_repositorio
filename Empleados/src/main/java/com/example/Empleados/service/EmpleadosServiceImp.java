@@ -3,10 +3,12 @@ package com.example.Empleados.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.Empleados.dto.EmpleadosDTO;
 import com.example.Empleados.exceptions.BadRequestException;
 import com.example.Empleados.exceptions.NoContentException;
 import com.example.Empleados.exceptions.NotFoundException;
 import com.example.Empleados.interfaze.EmpleadosInterface;
+import com.example.Empleados.mapper.EmpleadosMapper;
 import com.example.Empleados.model.Empleados;
 import com.example.Empleados.repository.EmpleadosRepository;
 import org.apache.commons.lang3.StringUtils;
@@ -21,10 +23,13 @@ public class EmpleadosServiceImp implements EmpleadosInterface {
   @Autowired
   private EmpleadosRepository empleadosRepository;
 
-  public List<Empleados> getAllEmpleados() {
+  @Autowired
+  private EmpleadosMapper empleadosMapper;
 
-    List<Empleados> empleadosgetlista = empleadosRepository.findAll();
+  public List<EmpleadosDTO> getAllEmpleados() {
 
+    List<EmpleadosDTO> empleadosgetlista = empleadosMapper.toempleados(empleadosRepository.findAll()
+    );
     if (CollectionUtils.isEmpty(empleadosgetlista)) {
       throw new NotFoundException("No existe los empleados");
     }
@@ -33,25 +38,26 @@ public class EmpleadosServiceImp implements EmpleadosInterface {
   }
 
   @Override
-  public Empleados getEmpleados(String dni) {
+  public EmpleadosDTO getEmpleados(String dni) {
 
-    Optional<Empleados> listar = empleadosRepository.findById(dni);
+    Optional<Empleados> e = empleadosRepository.findById(dni);
+    Optional<EmpleadosDTO> listar = Optional.ofNullable(empleadosMapper.empleadosDTOtoEmpleados(e.get()));
 
     if (!listar.isPresent()) {
       throw new NotFoundException("No existe dicho dni");
+    } else {
+      return listar.get();
     }
-
-    return listar.get();
   }
 
   @Override
-  public Empleados addUpdateEmpleados(Empleados empleados) {
+  public EmpleadosDTO addUpdateEmpleados(EmpleadosDTO empleadosDTO) {
 
-    boolean emptyName = StringUtils.isBlank(empleados.getNombre());
-    boolean emptySurname = StringUtils.isBlank(empleados.getApellidos());
+    boolean emptyName = StringUtils.isBlank(empleadosDTO.getNombreEmpleado());
+    boolean emptySurname = StringUtils.isBlank(empleadosDTO.getApellidos());
 
-    boolean emptyDni = StringUtils.isBlank(empleados.getDni());
-    boolean expReg = empleados.getDni().matches("[0-9]{8}[A-Z]");
+    boolean emptyDni = StringUtils.isBlank(empleadosDTO.getDni());
+    boolean expReg = empleadosDTO.getDni().matches("[0-9]{8}[A-Z]");
 
     if (emptyName || emptySurname) {
 
@@ -67,9 +73,11 @@ public class EmpleadosServiceImp implements EmpleadosInterface {
 
     }
 
-    Empleados emp = empleadosRepository.save(empleados);
+    Empleados emp = empleadosMapper.empleadostoEmpleadosDTO(empleadosDTO);
+    Empleados saveempleado = empleadosRepository.save(emp);
+    EmpleadosDTO saveEmpleadosDTO = empleadosMapper.empleadosDTOtoEmpleados(saveempleado);
 
-    return emp;
+    return saveEmpleadosDTO;
 
   }
 

@@ -2,17 +2,17 @@ package com.example.Empleados.interfaze;
 
 import java.util.List;
 
-import com.example.Empleados.model.Empleados;
+import com.example.Empleados.dto.EmpleadosDTO;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EmpleadosInterface {
 
-  List<Empleados> getAllEmpleados();
+  EmpleadosDTO getEmpleados(String dni);
 
-  Empleados getEmpleados(String dni);
+  List<EmpleadosDTO> getAllEmpleados();
 
-  Empleados addUpdateEmpleados(Empleados empleados);
+  EmpleadosDTO addUpdateEmpleados(EmpleadosDTO empleadosDTO);
 
   void deleteEmpleados(String dni);
 
