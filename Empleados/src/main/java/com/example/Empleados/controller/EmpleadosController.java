@@ -26,8 +26,6 @@ public class EmpleadosController implements EmpleadosApi {
     return empleadosMapper.toempleadosDTO(
         empleadosServiceImp.getAllEmpleados()
     );
-    //
-    //empleadosMapper.ListProductDTOs(empleadosServiceImp.getAllEmpleados());
 
   }
 
@@ -44,7 +42,7 @@ public class EmpleadosController implements EmpleadosApi {
     return
         empleadosMapper.empleadostoEmpleadosDTO(empleadosServiceImp.addUpdateEmpleados(
             empleadosMapper.empleadosDTOtoEmpleados(empleados)));
-    
+
   }
 
   @Override
