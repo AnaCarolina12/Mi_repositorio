@@ -1,40 +1,43 @@
 package com.example.Empleados.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import com.example.Empleados.dto.EmpleadosDTO;
 import com.example.Empleados.exceptions.BadRequestException;
 import com.example.Empleados.exceptions.NoContentException;
-import com.example.Empleados.exceptions.NotFoundException;
-import com.example.Empleados.interfaze.EmpleadosInterface;
+import com.example.Empleados.interfaz.EmpleadosInterface;
 import com.example.Empleados.mapper.EmpleadosMapper;
 import com.example.Empleados.model.Empleados;
 import com.example.Empleados.repository.EmpleadosRepository;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 @Service
-
+@RequiredArgsConstructor
 public class EmpleadosServiceImp implements EmpleadosInterface {
 
   @Autowired
   private EmpleadosRepository empleadosRepository;
 
   @Autowired
-  private EmpleadosMapper empleadosMapper;
+  private EmpleadosMapper empleadosMapper = Mappers.getMapper(EmpleadosMapper.class);
 
   public List<EmpleadosDTO> getAllEmpleados() {
 
-    List<EmpleadosDTO> empleadosgetlista = empleadosMapper.toempleados(empleadosRepository.findAll()
-    );
-    if (CollectionUtils.isEmpty(empleadosgetlista)) {
-      throw new NotFoundException("No existe los empleados");
+    List<Empleados> empleadosgetlista = empleadosRepository.findAll();
+    List<EmpleadosDTO> empleadosDTOlistar = empleadosMapper.toempleados(empleadosgetlista);
+
+    if (CollectionUtils.isEmpty(empleadosDTOlistar)) {
+      throw new NoSuchElementException("No existe los empleados");
     }
 
-    return empleadosgetlista;
+    return empleadosDTOlistar;
   }
 
   @Override
@@ -44,25 +47,24 @@ public class EmpleadosServiceImp implements EmpleadosInterface {
     Optional<EmpleadosDTO> listar = Optional.ofNullable(empleadosMapper.empleadosDTOtoEmpleados(e.get()));
 
     if (!listar.isPresent()) {
-      throw new NotFoundException("No existe dicho dni");
-    } else {
-      return listar.get();
+
+      throw new NoSuchElementException("Errror");
+
     }
+    return listar.get();
+
   }
 
   @Override
   public EmpleadosDTO addUpdateEmpleados(EmpleadosDTO empleadosDTO) {
 
-    boolean emptyName = StringUtils.isBlank(empleadosDTO.getNombreEmpleado());
-    boolean emptySurname = StringUtils.isBlank(empleadosDTO.getApellidos());
-
-    boolean emptyDni = StringUtils.isBlank(empleadosDTO.getDni());
+    boolean emptyName = StringUtils.isEmpty(empleadosDTO.getNombreEmpleado());
+    boolean emptySurname = StringUtils.isEmpty(empleadosDTO.getApellidos());
+    boolean emptyDni = StringUtils.isEmpty(empleadosDTO.getDni());
     boolean expReg = empleadosDTO.getDni().matches("[0-9]{8}[A-Z]");
 
     if (emptyName || emptySurname) {
-
-      throw new NoContentException("Un dato del empleado esta vacio");
-
+      throw new NoContentException("El nombre o apellidos esta vacio");
     } else if (emptyDni) {
 
       throw new NoContentException("El dni del empleado esta vacio");

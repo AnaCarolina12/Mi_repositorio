@@ -31,7 +31,7 @@ class HandleExceptionsTest {
   @Test
   void NotFoundException() {
 
-    NotFoundException e = new NotFoundException("");
+    NoSuchElementException e = new NoSuchElementException("");
     ErrorObject errorObject = getErrorObjectModel(e, HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND);
 
 
@@ -54,3 +54,4 @@ class HandleExceptionsTest {
 
   }
 }
+

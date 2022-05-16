@@ -1,4 +1,4 @@
-package com.example.Empleados.interfaze;
+package com.example.Empleados.interfaz;
 
 import java.util.List;
 
@@ -14,6 +14,7 @@ public interface EmpleadosInterface {
 
   EmpleadosDTO addUpdateEmpleados(EmpleadosDTO empleadosDTO);
 
+  // EmpleadosDTO addUpdateEmpleados(EmpleadosDTO empleadosDTO);
   void deleteEmpleados(String dni);
 
 }

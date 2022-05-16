@@ -4,24 +4,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class HandleExceptions {
+public class HandleExceptions extends ResponseEntityExceptionHandler {
 
-  @ExceptionHandler(value = NoContentException.class)
+  @ExceptionHandler
   public ResponseEntity<ErrorObject> handlerNoContentException(NoContentException e) {
     ErrorObject errorObject = new ErrorObject();
     errorObject.setMessage(e.getMessage());
     errorObject.setStatusCode(HttpStatus.NO_CONTENT.value());
     errorObject.setHttpStatus(HttpStatus.NO_CONTENT);
 
-    return new ResponseEntity<>(errorObject, HttpStatus.NO_CONTENT);
+    return new ResponseEntity<>(errorObject, HttpStatus.OK);
     //representa una respuesta HTTP, con encabezado , cuerpo y estado
 
   }
 
-  @ExceptionHandler(value = NotFoundException.class)
-  public ResponseEntity<ErrorObject> handlerNotFoundException(NotFoundException e) {
+  @ExceptionHandler
+  public ResponseEntity<ErrorObject> handlerNoSuchElementException(NoSuchElementException e) {
     ErrorObject errorObject = new ErrorObject();
     errorObject.setMessage(e.getMessage());
     errorObject.setStatusCode(HttpStatus.NOT_FOUND.value());
@@ -31,7 +32,7 @@ public class HandleExceptions {
 
   }
 
-  @ExceptionHandler(value = BadRequestException.class)
+  @ExceptionHandler
   public ResponseEntity<ErrorObject> handlerBadRequestException(BadRequestException e) {
     ErrorObject errorObject = new ErrorObject();
     errorObject.setMessage(e.getMessage());

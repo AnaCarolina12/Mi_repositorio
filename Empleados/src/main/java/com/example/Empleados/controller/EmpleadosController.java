@@ -6,6 +6,7 @@ import com.empleados.openapi.api.EmpleadosApi;
 import com.example.Empleados.mapper.EmpleadosMapper;
 import com.example.Empleados.model.Empleados;
 import com.example.Empleados.service.EmpleadosServiceImp;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,14 +19,12 @@ public class EmpleadosController implements EmpleadosApi {
   private EmpleadosServiceImp empleadosServiceImp;
 
   @Autowired
-  private EmpleadosMapper empleadosMapper;
+  private EmpleadosMapper empleadosMapper = Mappers.getMapper(EmpleadosMapper.class);
 
   @Override
   public List<Empleados> getAllEmpleados() {
 
-    return empleadosMapper.toempleadosDTO(
-        empleadosServiceImp.getAllEmpleados()
-    );
+    return empleadosMapper.toempleadosDTO(empleadosServiceImp.getAllEmpleados());
 
   }
 
@@ -39,10 +38,8 @@ public class EmpleadosController implements EmpleadosApi {
   @Override
   public Empleados addUpdateEmpleados(@RequestBody Empleados empleados) {
 
-    return
-        empleadosMapper.empleadostoEmpleadosDTO(empleadosServiceImp.addUpdateEmpleados(
-            empleadosMapper.empleadosDTOtoEmpleados(empleados)));
-
+    return empleadosMapper.empleadostoEmpleadosDTO(
+        empleadosServiceImp.addUpdateEmpleados(empleadosMapper.empleadosDTOtoEmpleados(empleados)));
   }
 
   @Override
