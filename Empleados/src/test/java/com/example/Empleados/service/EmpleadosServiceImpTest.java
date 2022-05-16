@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import com.example.Empleados.dto.EmpleadosDTO;
@@ -111,9 +110,10 @@ class EmpleadosServiceImpTest {
 
     //assertEquals(null, empleadosDTO.getDni());
     assertThrows(
-        NoSuchElementException.class,
+        BadRequestException.class,
         () ->
-            empleadosServiceImp.getEmpleados("12345678M"));
+            empleadosServiceImp.getEmpleados("12345678M")
+    );
   }
 
   @Test
@@ -127,8 +127,6 @@ class EmpleadosServiceImpTest {
     EmpleadosDTO empleadosDTO3 = empleadosMapper.empleadosDTOtoEmpleados(empleados3);
 
     //comprobaciones
-    //Exception que indica que  el cliente ha cometido un error sintáctico en la llamada
-    //por lo que el servidor no puede procesar la peticion
     assertThrows(
         BadRequestException.class,
         () ->

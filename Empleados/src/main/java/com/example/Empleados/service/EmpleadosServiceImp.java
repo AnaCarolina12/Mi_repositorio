@@ -49,7 +49,7 @@ public class EmpleadosServiceImp implements EmpleadosInterface {
 
     if (!listar.isPresent()) {
 
-      throw new NoSuchElementException("Errror");
+      throw new NoSuchElementException("No existe el empleado");
 
     }
 
