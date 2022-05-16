@@ -22,7 +22,7 @@ public class HandleExceptions extends ResponseEntityExceptionHandler {
   }
 
   @ExceptionHandler
-  public ResponseEntity<ErrorObject> handlerNoSuchElementException(NoSuchElementException e) {
+  public ResponseEntity<ErrorObject> handlerNotFoundException(NotFoundException e) {
     ErrorObject errorObject = new ErrorObject();
     errorObject.setMessage(e.getMessage());
     errorObject.setStatusCode(HttpStatus.NOT_FOUND.value());
@@ -42,4 +42,6 @@ public class HandleExceptions extends ResponseEntityExceptionHandler {
     return new ResponseEntity<>(errorObject, HttpStatus.BAD_REQUEST);
 
   }
+
+ 
 }

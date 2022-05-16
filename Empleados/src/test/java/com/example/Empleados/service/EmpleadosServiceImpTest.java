@@ -13,6 +13,7 @@ import java.util.Optional;
 import com.example.Empleados.dto.EmpleadosDTO;
 import com.example.Empleados.exceptions.BadRequestException;
 import com.example.Empleados.exceptions.NoContentException;
+import com.example.Empleados.exceptions.NotFoundException;
 import com.example.Empleados.mapper.EmpleadosMapper;
 import com.example.Empleados.model.Empleados;
 import com.example.Empleados.repository.EmpleadosRepository;
@@ -97,7 +98,7 @@ class EmpleadosServiceImpTest {
   @Test
   void ExceptiongetAllEmpleados() {
     assertThrows(
-        NoSuchElementException.class,
+        NotFoundException.class,
         () ->
             empleadosServiceImp.getAllEmpleados());
   }
@@ -107,10 +108,12 @@ class EmpleadosServiceImpTest {
     Empleados empleados = getEmpleadosModel("12345678L", "Messi", "Cruz");
     EmpleadosDTO empleadosDTO = empleadosMapper.empleadosDTOtoEmpleados(empleados);
     //Exception que indica que el servidor no puede encontrar el recurso solicitado
+
+    //assertEquals(null, empleadosDTO.getDni());
     assertThrows(
         NoSuchElementException.class,
         () ->
-            empleadosServiceImp.getEmpleados(empleadosDTO.getDni()));
+            empleadosServiceImp.getEmpleados("12345678M"));
   }
 
   @Test

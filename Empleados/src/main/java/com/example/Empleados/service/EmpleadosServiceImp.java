@@ -7,6 +7,7 @@ import java.util.Optional;
 import com.example.Empleados.dto.EmpleadosDTO;
 import com.example.Empleados.exceptions.BadRequestException;
 import com.example.Empleados.exceptions.NoContentException;
+import com.example.Empleados.exceptions.NotFoundException;
 import com.example.Empleados.interfaz.EmpleadosInterface;
 import com.example.Empleados.mapper.EmpleadosMapper;
 import com.example.Empleados.model.Empleados;
@@ -34,7 +35,7 @@ public class EmpleadosServiceImp implements EmpleadosInterface {
     List<EmpleadosDTO> empleadosDTOlistar = empleadosMapper.toempleados(empleadosgetlista);
 
     if (CollectionUtils.isEmpty(empleadosDTOlistar)) {
-      throw new NoSuchElementException("No existe los empleados");
+      throw new NotFoundException("No existe los empleados");
     }
 
     return empleadosDTOlistar;
@@ -51,6 +52,7 @@ public class EmpleadosServiceImp implements EmpleadosInterface {
       throw new NoSuchElementException("Errror");
 
     }
+
     return listar.get();
 
   }
