@@ -113,7 +113,7 @@ class EmpleadosServiceImpTest {
   }
 
   @Test
-  void exceptiongetAllEmpleados() {
+  void notFoundexceptiongetAllEmpleados() {
     assertThrows(
         NotFoundException.class,
         () ->
@@ -121,17 +121,12 @@ class EmpleadosServiceImpTest {
   }
 
   @Test
-  void exceptiongetEmpleados() {
-    Empleados empleados = getEmpleadosModel("12345678L", "Messi", "Cruz");
-    EmpleadosDTO empleadosDTO = empleadosMapper.empleadosDTOtoEmpleados(empleados);
-    //Exception que indica que el servidor no puede encontrar el recurso solicitado
-
-    //assertEquals(null, empleadosDTO.getDni());
+  void noSuchElementexceptiongetEmpleados() {
 
     assertThrows(
         NoSuchElementException.class,
         () ->
-            empleadosServiceImp.getEmpleados("12345678M")
+            empleadosServiceImp.getEmpleados("1234567M")
     );
 
   }
@@ -147,7 +142,7 @@ class EmpleadosServiceImpTest {
         BadRequestException.class,
         () ->
             //Llamada al metodo
-            empleadosServiceImp.addUpdateEmpleados(empleadosDTO)
+            empleadosMapper.empleadostoEmpleadosDTO(empleadosServiceImp.addUpdateEmpleados(empleadosDTO))
     );
 
 
@@ -156,9 +151,9 @@ class EmpleadosServiceImpTest {
   @Test
   void noContentNameExceptionddUpdateEmpleados() {
 
-    Empleados empleados = getEmpleadosModel("12345678P", "", "Broa");
-    EmpleadosDTO empleadosDTO = empleadosMapper.empleadosDTOtoEmpleados(empleados);
-
+    Empleados empleados = getEmpleadosModel("33289120T", "Messi", "Cruz");
+    EmpleadosDTO empleadosDTO = new EmpleadosDTO("12345678G", "AnA", "cruz");
+    EmpleadosDTO emp = empleadosMapper.empleadosDTOtoEmpleados(empleados);
     assertThrows(
         NoContentException.class,
         () ->
@@ -171,10 +166,9 @@ class EmpleadosServiceImpTest {
   @Test
   void noContentSurnameExceptionddUpdateEmpleados() {
 
-    Empleados empleados = getEmpleadosModel("123456789P", "Messi", "");
-
-    EmpleadosDTO empleadosDTO = empleadosMapper.empleadosDTOtoEmpleados(empleados);
-
+    Empleados empleados = getEmpleadosModel("33289120T", "Messi", "Cruz");
+    EmpleadosDTO empleadosDTO = new EmpleadosDTO("12345678G", "AnA", "cruz");
+    EmpleadosDTO emp = empleadosMapper.empleadosDTOtoEmpleados(empleados);
     assertThrows(
         NoContentException.class,
         () ->
