@@ -1,11 +1,12 @@
 package com.example.Empleados.controller;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import com.example.Empleados.dto.EmpleadosDTO;
 import com.example.Empleados.mapper.EmpleadosMapper;
@@ -13,7 +14,6 @@ import com.example.Empleados.model.Empleados;
 import com.example.Empleados.service.EmpleadosServiceImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -26,7 +26,8 @@ class EmpleadosControllerTest {
   @InjectMocks
   private EmpleadosController empleadosController;
 
-  private EmpleadosMapper empleadosMapper = Mappers.getMapper(EmpleadosMapper.class);
+  @Mock
+  private EmpleadosMapper empleadosMapper;
 
   @BeforeEach
   void setUp() {
@@ -37,14 +38,20 @@ class EmpleadosControllerTest {
   @Test
   void getAllEmpleados() {
 
-    EmpleadosDTO empleados = getEmpleadosModel("22222222P", "Martinez", "Romero");
-    EmpleadosDTO empleados2 = getEmpleadosModel("33289120T", "Messi", "Cruz");
+    EmpleadosDTO empleadosDTO = getEmpleadosModel("22222222P", "Martinez", "Romero");
+    EmpleadosDTO empleadosDTO2 = getEmpleadosModel("33289120T", "Messi", "Cruz");
 
-    when(empleadosServiceImp.getAllEmpleados()).thenReturn(Arrays.asList(empleados, empleados2));
+    Empleados empleados = new Empleados("12345678M", "Ana", "Cruz");
+    Empleados empleados2 = new Empleados("87654321M", "Lorenzo", "Cruz");
+
+    //El mapper tambien se tiene que mockear
+    when(empleadosServiceImp.getAllEmpleados()).thenReturn(Arrays.asList(empleadosDTO, empleadosDTO2));
+    when(empleadosMapper.toempleadosDTO(Arrays.asList(empleadosDTO, empleadosDTO2))).thenReturn(Arrays.asList(empleados, empleados2));
+
     List<Empleados> respuesta = empleadosController.getAllEmpleados();
+    List<EmpleadosDTO> respuesta2 = empleadosServiceImp.getAllEmpleados();
 
-    assertNotNull(respuesta);
-    //assertEquals(null, respuesta);
+    assertEquals(respuesta2.size(), respuesta.size());
 
   }
 
@@ -52,12 +59,15 @@ class EmpleadosControllerTest {
   void getEmpleado() {
 
     EmpleadosDTO empleados = getEmpleadosModel("55567851T", "CarolinaUpdate", "Martinez");
+    Empleados empleados1 = new Empleados("12345678M", "Ana", "Cruz");
 
     when(empleadosServiceImp.getEmpleados(empleados.getDni())).thenReturn(empleados);
-    Empleados respuesta = empleadosController.getEmpleado(empleados.getDni());
+    when(empleadosMapper.empleadostoEmpleadosDTO(empleados)).thenReturn(empleados1);
 
-    assertNotNull(respuesta);
-    // assertEquals(null, respuesta);
+    Empleados respuesta = empleadosController.getEmpleado(empleados.getDni());
+    Optional<EmpleadosDTO> respuesta2 = Optional.ofNullable(empleadosServiceImp.getEmpleados(empleados.getDni()));
+
+    assertEquals(respuesta2.isPresent(), Optional.of(respuesta).isPresent());
 
   }
 
@@ -65,13 +75,17 @@ class EmpleadosControllerTest {
   void addUpdateEmpleados() {
 
     EmpleadosDTO empleados = getEmpleadosModel("11111111P", "Martinez", "Romero");
+    Empleados empleados1 = new Empleados("12345678M", "Ana", "Cruz");
 
+    when(empleadosController.addUpdateEmpleados(empleados1)).thenReturn(empleados1);
     when(empleadosServiceImp.addUpdateEmpleados(empleados)).thenReturn(empleados);
-    Empleados l = empleadosMapper.empleadostoEmpleadosDTO(empleados);
 
-    empleadosController.addUpdateEmpleados(l);
-    assertNotNull(l);
-    //assertEquals(null, empleadosServiceImp.addUpdateEmpleados(empleados));
+    Empleados response = empleadosController.addUpdateEmpleados(empleados1);
+    EmpleadosDTO response2 = empleadosServiceImp.addUpdateEmpleados(empleados);
+
+    assertEquals(Optional.of(response).isPresent(), Optional.of(response2).isPresent());
+
+    verify(empleadosServiceImp).addUpdateEmpleados(empleados);
 
   }
 
@@ -95,7 +109,3 @@ class EmpleadosControllerTest {
   }
 
 }
-
-
-
-

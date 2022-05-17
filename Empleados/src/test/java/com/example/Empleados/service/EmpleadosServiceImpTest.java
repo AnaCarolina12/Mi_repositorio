@@ -1,12 +1,14 @@
 package com.example.Empleados.service;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import com.example.Empleados.dto.EmpleadosDTO;
@@ -18,7 +20,6 @@ import com.example.Empleados.model.Empleados;
 import com.example.Empleados.repository.EmpleadosRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -31,7 +32,8 @@ class EmpleadosServiceImpTest {
   @InjectMocks
   private EmpleadosServiceImp empleadosServiceImp;
 
-  private EmpleadosMapper empleadosMapper = Mappers.getMapper(EmpleadosMapper.class);
+  @Mock
+  private EmpleadosMapper empleadosMapper;
 
   @BeforeEach
   void setUp() {
@@ -45,13 +47,19 @@ class EmpleadosServiceImpTest {
     Empleados empleados = getEmpleadosModel("11111111P", "Martinez", "Romero");
     Empleados empleados2 = getEmpleadosModel("55567851T", "CarolinaUpdate", "Martinez");
 
+    EmpleadosDTO empleadosDTO = new EmpleadosDTO("12345678G", "AnA", "cruz");
+    EmpleadosDTO empleadosDTO2 = new EmpleadosDTO("12345678G", "AnA", "cruz");
+
     when(empleadosRepository.findAll()).thenReturn(Arrays.asList(empleados, empleados2));
-    EmpleadosDTO empleadosDTO = empleadosMapper.empleadosDTOtoEmpleados(empleados);
-    EmpleadosDTO empleadosDTO2 = empleadosMapper.empleadosDTOtoEmpleados(empleados2);
+    when(empleadosMapper.toempleados(Arrays.asList(empleados, empleados2))).thenReturn(Arrays.asList(empleadosDTO, empleadosDTO2));
 
-    List<EmpleadosDTO> empleadosListDTO = empleadosServiceImp.getAllEmpleados();
+    List<Empleados> respuesta = empleadosRepository.findAll();
+    List<EmpleadosDTO> respuesta2 = empleadosServiceImp.getAllEmpleados();
 
-    assertNotNull(empleadosListDTO);
+    assertEquals(respuesta.size(), respuesta2.size());
+
+    verify(empleadosRepository, times(2)).findAll();
+
 
   }
 
@@ -59,43 +67,53 @@ class EmpleadosServiceImpTest {
   void getEmpleados() {
 
     Empleados empleados = getEmpleadosModel("22222222P", "Martinez", "Romero");
+    EmpleadosDTO empleadosDTO2 = new EmpleadosDTO("12345678G", "AnA", "cruz");
 
     when(empleadosRepository.findById(empleados.getDni())).thenReturn(Optional.ofNullable(empleados));
-    EmpleadosDTO response = empleadosServiceImp.getEmpleados(empleados.getDni());
+    when(empleadosMapper.empleadosDTOtoEmpleados(empleados)).thenReturn(empleadosDTO2);
 
-    assertNotNull(response);
-    //assertEquals(empleados.getDni(), response.getDni());
+    Optional<Empleados> response2 = empleadosRepository.findById(empleados.getDni());
+    Optional<EmpleadosDTO> listar = Optional.ofNullable(empleadosServiceImp.getEmpleados(empleados.getDni()));
 
+    assertEquals(listar.isPresent(), response2.isPresent());
+    verify(empleadosRepository, times(2)).findById(empleados.getDni());
   }
 
   @Test
   void addUpdateEmpleados() {
     //Creacion de objetos
     Empleados empleados = getEmpleadosModel("33289120T", "Messi", "Cruz");
-    EmpleadosDTO l = empleadosMapper.empleadosDTOtoEmpleados(empleados);
+    EmpleadosDTO empleadosDTO = new EmpleadosDTO("12345678G", "AnA", "cruz");
+
     //Definicion de mocikto
     when(empleadosRepository.save(empleados)).thenReturn(empleados);
-    //Llamada al metodos
-    EmpleadosDTO response = empleadosServiceImp.addUpdateEmpleados(l);
-    //comprobaciones
-    assertNotNull(empleados);
-    //assertEquals(empleados, response);
+    //when(empleadosMapper.empleadostoEmpleadosDTO(empleadosServiceImp.addUpdateEmpleados(empleadosDTO))).thenReturn(empleados);
+    when(empleadosServiceImp.addUpdateEmpleados(empleadosDTO)).thenReturn(empleadosDTO);
+    Empleados saveemp2 = empleadosRepository.save(empleados);
+    EmpleadosDTO saveEmpleados = empleadosServiceImp.addUpdateEmpleados(empleadosDTO);
+
+    assertEquals(Optional.of(saveEmpleados).isPresent(), Optional.of(saveemp2).isPresent());
+
+    verify(empleadosRepository).save(empleados);
+    verify(empleadosMapper, times(2)).empleadostoEmpleadosDTO(empleadosServiceImp.addUpdateEmpleados(empleadosDTO));
+
   }
 
   @Test
   void deleteEmpleados() {
 
-    Empleados empleados = getEmpleadosModel("55567851T", "CarolinaUpdate", "Martinez");
+    Empleados empleados = getEmpleadosModel("22222222P", "Martinez", "Romero");
+    EmpleadosDTO empleadosDTO2 = new EmpleadosDTO("12345678G", "AnA", "cruz");
 
     when(empleadosRepository.findById(empleados.getDni())).thenReturn(Optional.ofNullable(empleados));
+    when(empleadosMapper.empleadosDTOtoEmpleados(empleados)).thenReturn(empleadosDTO2);
+
     empleadosServiceImp.deleteEmpleados(empleados.getDni());
-
     verify(empleadosRepository).deleteById(empleados.getDni());
-
   }
 
   @Test
-  void ExceptiongetAllEmpleados() {
+  void exceptiongetAllEmpleados() {
     assertThrows(
         NotFoundException.class,
         () ->
@@ -103,30 +121,28 @@ class EmpleadosServiceImpTest {
   }
 
   @Test
-  void ExceptiongetEmpleados() {
+  void exceptiongetEmpleados() {
     Empleados empleados = getEmpleadosModel("12345678L", "Messi", "Cruz");
     EmpleadosDTO empleadosDTO = empleadosMapper.empleadosDTOtoEmpleados(empleados);
     //Exception que indica que el servidor no puede encontrar el recurso solicitado
 
     //assertEquals(null, empleadosDTO.getDni());
+
     assertThrows(
-        BadRequestException.class,
+        NoSuchElementException.class,
         () ->
             empleadosServiceImp.getEmpleados("12345678M")
     );
+
   }
 
   @Test
-  void ExceptionaddUpdateEmpleados() {
-    Empleados empleados = getEmpleadosModel("123456789P", "Messi", "Cruz");
-    Empleados empleados2 = getEmpleadosModel("12345678P", "", "Broa");
-    Empleados empleados3 = getEmpleadosModel("", "Boris", "Broa");
+  void badRequestExceptionaddUpdateEmpleados() {
 
-    EmpleadosDTO empleadosDTO = empleadosMapper.empleadosDTOtoEmpleados(empleados);
-    EmpleadosDTO empleadosDTO2 = empleadosMapper.empleadosDTOtoEmpleados(empleados2);
-    EmpleadosDTO empleadosDTO3 = empleadosMapper.empleadosDTOtoEmpleados(empleados3);
+    Empleados empleados = getEmpleadosModel("33289120T", "Messi", "Cruz");
+    EmpleadosDTO empleadosDTO = new EmpleadosDTO("12345678G", "AnA", "cruz");
+    EmpleadosDTO emp = empleadosMapper.empleadosDTOtoEmpleados(empleados);
 
-    //comprobaciones
     assertThrows(
         BadRequestException.class,
         () ->
@@ -134,21 +150,51 @@ class EmpleadosServiceImpTest {
             empleadosServiceImp.addUpdateEmpleados(empleadosDTO)
     );
 
-    assertThrows(
-        NoContentException.class,
-        () ->
-            //Llamada al metodo
-            empleadosServiceImp.addUpdateEmpleados(empleadosDTO2)
-    );
+
+  }
+
+  @Test
+  void noContentNameExceptionddUpdateEmpleados() {
+
+    Empleados empleados = getEmpleadosModel("12345678P", "", "Broa");
+    EmpleadosDTO empleadosDTO = empleadosMapper.empleadosDTOtoEmpleados(empleados);
 
     assertThrows(
         NoContentException.class,
         () ->
             //Llamada al metodo
-            empleadosServiceImp.addUpdateEmpleados(empleadosDTO3)
+            empleadosServiceImp.addUpdateEmpleados(empleadosDTO)
     );
 
+  }
 
+  @Test
+  void noContentSurnameExceptionddUpdateEmpleados() {
+
+    Empleados empleados = getEmpleadosModel("123456789P", "Messi", "");
+
+    EmpleadosDTO empleadosDTO = empleadosMapper.empleadosDTOtoEmpleados(empleados);
+
+    assertThrows(
+        NoContentException.class,
+        () ->
+            //Llamada al metodo
+            empleadosServiceImp.addUpdateEmpleados(empleadosDTO)
+    );
+  }
+
+  @Test
+  void noContentDniExceptionddUpdateEmpleados() {
+
+    Empleados empleados = getEmpleadosModel("", "Messi", "Cruz");
+    EmpleadosDTO empleadosDTO = empleadosMapper.empleadosDTOtoEmpleados(empleados);
+
+    assertThrows(
+        NoContentException.class,
+        () ->
+            //Llamada al metodo
+            empleadosServiceImp.addUpdateEmpleados(empleadosDTO)
+    );
   }
 
   private Empleados getEmpleadosModel(String dni, String nombre, String apellidos) {

@@ -4,10 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class HandleExceptions extends ResponseEntityExceptionHandler {
+public class HandleExceptions {
 
   @ExceptionHandler
   public ResponseEntity<ErrorObject> handlerNoContentException(NoContentException e) {
@@ -43,5 +42,5 @@ public class HandleExceptions extends ResponseEntityExceptionHandler {
 
   }
 
- 
+
 }

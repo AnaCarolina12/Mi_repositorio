@@ -46,7 +46,6 @@ public class EmpleadosServiceImp implements EmpleadosInterface {
 
     Optional<Empleados> e = empleadosRepository.findById(dni);
     Optional<EmpleadosDTO> listar = Optional.ofNullable(empleadosMapper.empleadosDTOtoEmpleados(e.get()));
-
     if (!listar.isPresent()) {
 
       throw new NoSuchElementException("No existe el empleado");
@@ -65,8 +64,14 @@ public class EmpleadosServiceImp implements EmpleadosInterface {
     boolean emptyDni = StringUtils.isEmpty(empleadosDTO.getDni());
     boolean expReg = empleadosDTO.getDni().matches("[0-9]{8}[A-Z]");
 
-    if (emptyName || emptySurname) {
-      throw new NoContentException("El nombre o apellidos esta vacio");
+    if (emptyName) {
+
+      throw new NoContentException("El nombre esta vacio");
+      
+    } else if (emptySurname) {
+
+      throw new NoContentException("El nombre esta vacio");
+
     } else if (emptyDni) {
 
       throw new NoContentException("El dni del empleado esta vacio");
