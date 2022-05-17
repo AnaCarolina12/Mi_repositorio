@@ -47,8 +47,8 @@ class EmpleadosServiceImpTest {
     Empleados empleados = getEmpleadosModel("11111111P", "Martinez", "Romero");
     Empleados empleados2 = getEmpleadosModel("55567851T", "CarolinaUpdate", "Martinez");
 
-    EmpleadosDTO empleadosDTO = new EmpleadosDTO("12345678G", "AnA", "cruz");
-    EmpleadosDTO empleadosDTO2 = new EmpleadosDTO("12345678G", "AnA", "cruz");
+    EmpleadosDTO empleadosDTO = getEmpleadosDTOModel("12345678G", "AnA", "cruz");
+    EmpleadosDTO empleadosDTO2 = getEmpleadosDTOModel("12345678G", "AnA", "cruz");
 
     when(empleadosRepository.findAll()).thenReturn(Arrays.asList(empleados, empleados2));
     when(empleadosMapper.toempleados(Arrays.asList(empleados, empleados2))).thenReturn(Arrays.asList(empleadosDTO, empleadosDTO2));
@@ -67,7 +67,7 @@ class EmpleadosServiceImpTest {
   void getEmpleados() {
 
     Empleados empleados = getEmpleadosModel("22222222P", "Martinez", "Romero");
-    EmpleadosDTO empleadosDTO2 = new EmpleadosDTO("12345678G", "AnA", "cruz");
+    EmpleadosDTO empleadosDTO2 = getEmpleadosDTOModel("12345678G", "AnA", "cruz");
 
     when(empleadosRepository.findById(empleados.getDni())).thenReturn(Optional.ofNullable(empleados));
     when(empleadosMapper.empleadosDTOtoEmpleados(empleados)).thenReturn(empleadosDTO2);
@@ -83,12 +83,12 @@ class EmpleadosServiceImpTest {
   void addUpdateEmpleados() {
     //Creacion de objetos
     Empleados empleados = getEmpleadosModel("33289120T", "Messi", "Cruz");
-    EmpleadosDTO empleadosDTO = new EmpleadosDTO("12345678G", "AnA", "cruz");
+    EmpleadosDTO empleadosDTO = getEmpleadosDTOModel("12345678G", "AnA", "cruz");
 
     //Definicion de mocikto
     when(empleadosRepository.save(empleados)).thenReturn(empleados);
-    //when(empleadosMapper.empleadostoEmpleadosDTO(empleadosServiceImp.addUpdateEmpleados(empleadosDTO))).thenReturn(empleados);
-    when(empleadosServiceImp.addUpdateEmpleados(empleadosDTO)).thenReturn(empleadosDTO);
+    when(empleadosMapper.empleadosDTOtoEmpleados(empleados)).thenReturn(empleadosDTO);
+
     Empleados saveemp2 = empleadosRepository.save(empleados);
     EmpleadosDTO saveEmpleados = empleadosServiceImp.addUpdateEmpleados(empleadosDTO);
 
@@ -103,7 +103,7 @@ class EmpleadosServiceImpTest {
   void deleteEmpleados() {
 
     Empleados empleados = getEmpleadosModel("22222222P", "Martinez", "Romero");
-    EmpleadosDTO empleadosDTO2 = new EmpleadosDTO("12345678G", "AnA", "cruz");
+    EmpleadosDTO empleadosDTO2 = getEmpleadosDTOModel("12345678G", "AnA", "cruz");
 
     when(empleadosRepository.findById(empleados.getDni())).thenReturn(Optional.ofNullable(empleados));
     when(empleadosMapper.empleadosDTOtoEmpleados(empleados)).thenReturn(empleadosDTO2);
@@ -121,7 +121,7 @@ class EmpleadosServiceImpTest {
   }
 
   @Test
-  void noSuchElementexceptiongetEmpleados() {
+  void noSuchElementexceptiongetEmpleado() {
 
     assertThrows(
         NoSuchElementException.class,
@@ -134,9 +134,7 @@ class EmpleadosServiceImpTest {
   @Test
   void badRequestExceptionaddUpdateEmpleados() {
 
-    Empleados empleados = getEmpleadosModel("33289120T", "Messi", "Cruz");
-    EmpleadosDTO empleadosDTO = new EmpleadosDTO("12345678G", "AnA", "cruz");
-    EmpleadosDTO emp = empleadosMapper.empleadosDTOtoEmpleados(empleados);
+    EmpleadosDTO empleadosDTO = getEmpleadosDTOModel("1234567G", "AnA", "cruz");
 
     assertThrows(
         BadRequestException.class,
@@ -151,9 +149,8 @@ class EmpleadosServiceImpTest {
   @Test
   void noContentNameExceptionddUpdateEmpleados() {
 
-    Empleados empleados = getEmpleadosModel("33289120T", "Messi", "Cruz");
-    EmpleadosDTO empleadosDTO = new EmpleadosDTO("12345678G", "AnA", "cruz");
-    EmpleadosDTO emp = empleadosMapper.empleadosDTOtoEmpleados(empleados);
+    EmpleadosDTO empleadosDTO = getEmpleadosDTOModel("12345678G", "", "cruz");
+
     assertThrows(
         NoContentException.class,
         () ->
@@ -166,9 +163,7 @@ class EmpleadosServiceImpTest {
   @Test
   void noContentSurnameExceptionddUpdateEmpleados() {
 
-    Empleados empleados = getEmpleadosModel("33289120T", "Messi", "Cruz");
-    EmpleadosDTO empleadosDTO = new EmpleadosDTO("12345678G", "AnA", "cruz");
-    EmpleadosDTO emp = empleadosMapper.empleadosDTOtoEmpleados(empleados);
+    EmpleadosDTO empleadosDTO = getEmpleadosDTOModel("12345678G", "Bria", "");
     assertThrows(
         NoContentException.class,
         () ->
@@ -180,8 +175,7 @@ class EmpleadosServiceImpTest {
   @Test
   void noContentDniExceptionddUpdateEmpleados() {
 
-    Empleados empleados = getEmpleadosModel("", "Messi", "Cruz");
-    EmpleadosDTO empleadosDTO = empleadosMapper.empleadosDTOtoEmpleados(empleados);
+    EmpleadosDTO empleadosDTO = getEmpleadosDTOModel("", "Bria", "Cruz");
 
     assertThrows(
         NoContentException.class,
@@ -196,6 +190,16 @@ class EmpleadosServiceImpTest {
 
     empleados.setDni(dni);
     empleados.setNombre(nombre);
+    empleados.setApellidos(apellidos);
+
+    return empleados;
+  }
+
+  private EmpleadosDTO getEmpleadosDTOModel(String dni, String nombre, String apellidos) {
+    EmpleadosDTO empleados = new EmpleadosDTO();
+
+    empleados.setDni(dni);
+    empleados.setNombreEmpleado(nombre);
     empleados.setApellidos(apellidos);
 
     return empleados;

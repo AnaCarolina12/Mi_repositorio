@@ -1,6 +1,7 @@
 package com.example.Empleados.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -38,11 +39,11 @@ class EmpleadosControllerTest {
   @Test
   void getAllEmpleados() {
 
-    EmpleadosDTO empleadosDTO = getEmpleadosModel("22222222P", "Martinez", "Romero");
-    EmpleadosDTO empleadosDTO2 = getEmpleadosModel("33289120T", "Messi", "Cruz");
+    EmpleadosDTO empleadosDTO = getEmpleadosDTOModel("22222222P", "Martinez", "Romero");
+    EmpleadosDTO empleadosDTO2 = getEmpleadosDTOModel("33289120T", "Messi", "Cruz");
 
-    Empleados empleados = new Empleados("12345678M", "Ana", "Cruz");
-    Empleados empleados2 = new Empleados("87654321M", "Lorenzo", "Cruz");
+    Empleados empleados = getEmpleadosModel("12345678M", "Ana", "Cruz");
+    Empleados empleados2 = getEmpleadosModel("87654321M", "Lorenzo", "Cruz");
 
     //El mapper tambien se tiene que mockear
     when(empleadosServiceImp.getAllEmpleados()).thenReturn(Arrays.asList(empleadosDTO, empleadosDTO2));
@@ -53,13 +54,15 @@ class EmpleadosControllerTest {
 
     assertEquals(respuesta2.size(), respuesta.size());
 
+    verify(empleadosServiceImp, times(2)).getAllEmpleados();
+
   }
 
   @Test
   void getEmpleado() {
 
-    EmpleadosDTO empleados = getEmpleadosModel("55567851T", "CarolinaUpdate", "Martinez");
-    Empleados empleados1 = new Empleados("12345678M", "Ana", "Cruz");
+    EmpleadosDTO empleados = getEmpleadosDTOModel("55567851T", "CarolinaUpdate", "Martinez");
+    Empleados empleados1 = getEmpleadosModel("12345678M", "Ana", "Cruz");
 
     when(empleadosServiceImp.getEmpleados(empleados.getDni())).thenReturn(empleados);
     when(empleadosMapper.empleadostoEmpleadosDTO(empleados)).thenReturn(empleados1);
@@ -69,16 +72,19 @@ class EmpleadosControllerTest {
 
     assertEquals(respuesta2.isPresent(), Optional.of(respuesta).isPresent());
 
+    verify(empleadosServiceImp, times(2)).getEmpleados(empleados.getDni());
+    verify(empleadosMapper).empleadostoEmpleadosDTO(empleados);
   }
 
   @Test
   void addUpdateEmpleados() {
 
-    EmpleadosDTO empleados = getEmpleadosModel("11111111P", "Martinez", "Romero");
-    Empleados empleados1 = new Empleados("12345678M", "Ana", "Cruz");
+    EmpleadosDTO empleados = getEmpleadosDTOModel("11111111P", "Martinez", "Romero");
+    Empleados empleados1 = getEmpleadosModel("12345678M", "Ana", "Cruz");
 
-    when(empleadosController.addUpdateEmpleados(empleados1)).thenReturn(empleados1);
+    //when(empleadosController.addUpdateEmpleados(empleados1)).thenReturn(empleados1);
     when(empleadosServiceImp.addUpdateEmpleados(empleados)).thenReturn(empleados);
+    when(empleadosMapper.empleadostoEmpleadosDTO(empleados)).thenReturn(empleados1);
 
     Empleados response = empleadosController.addUpdateEmpleados(empleados1);
     EmpleadosDTO response2 = empleadosServiceImp.addUpdateEmpleados(empleados);
@@ -92,20 +98,30 @@ class EmpleadosControllerTest {
   @Test
   void deleteEmpelados() {
 
-    EmpleadosDTO empleados = getEmpleadosModel("11111111P", "Martinez", "Romero");
+    EmpleadosDTO empleados = getEmpleadosDTOModel("11111111P", "Martinez", "Romero");
 
     empleadosController.deleteEmpelados(empleados.getDni());
 
     verify(empleadosServiceImp).deleteEmpleados(empleados.getDni());
   }
 
-  private EmpleadosDTO getEmpleadosModel(String dni, String nombre, String apellidos) {
+  private EmpleadosDTO getEmpleadosDTOModel(String dni, String nombre, String apellidos) {
     EmpleadosDTO empleados = new EmpleadosDTO();
 
     empleados.setDni(dni);
     empleados.setNombreEmpleado(nombre);
     empleados.setApellidos(apellidos);
+
     return empleados;
   }
 
+  private Empleados getEmpleadosModel(String dni, String nombre, String apellidos) {
+    Empleados empleados = new Empleados();
+
+    empleados.setDni(dni);
+    empleados.setNombre(nombre);
+    empleados.setApellidos(apellidos);
+
+    return empleados;
+  }
 }
