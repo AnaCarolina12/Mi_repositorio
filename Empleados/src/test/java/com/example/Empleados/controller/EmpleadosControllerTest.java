@@ -78,7 +78,7 @@ class EmpleadosControllerTest {
   @Test
   void addUpdateEmpleados() {
 
-    EmpleadosDTO empleadosDTO = getEmpleadosDTOModel("11111111P", "Martinez", "Romero");
+    //EmpleadosDTO empleadosDTO = getEmpleadosDTOModel("11111111P", "Martinez", "Romero");
     Empleados empleados1 = getEmpleadosModel("12345678M", "Ana", "Cruz");
 
     when(empleadosMapper.empleadostoEmpleadosDTO(
