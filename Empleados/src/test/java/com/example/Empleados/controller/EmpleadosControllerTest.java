@@ -69,7 +69,7 @@ class EmpleadosControllerTest {
 
     Empleados response = empleadosController.getEmpleado(empleados.getDni());
 
-    assertEquals(response.getDni(), empleados1.getDni());
+    assertEquals(response, empleados1);
 
     verify(empleadosServiceImp).getEmpleados(empleados.getDni());
     verify(empleadosMapper).empleadostoEmpleadosDTO(empleados);
