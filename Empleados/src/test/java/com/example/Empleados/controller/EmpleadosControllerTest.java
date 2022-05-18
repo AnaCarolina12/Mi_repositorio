@@ -50,7 +50,7 @@ class EmpleadosControllerTest {
     //llamamos al metodo del injectMocks
     List<Empleados> respuesta = empleadosController.getAllEmpleados();
 
-    assertEquals(Arrays.asList(empleadosDTO, empleadosDTO2).size(), respuesta.size());
+    assertEquals(respuesta, Arrays.asList(empleados, empleados2));
 
     verify(empleadosServiceImp).getAllEmpleados();
     verify(empleadosMapper).toempleadosDTO(Arrays.asList(empleadosDTO, empleadosDTO2));
@@ -68,7 +68,7 @@ class EmpleadosControllerTest {
 
     Empleados response = empleadosController.getEmpleado(empleados.getDni());
 
-    assertEquals(empleados1.getDni(), response.getDni());
+    assertEquals(response.getDni(), empleados1.getDni());
 
     verify(empleadosServiceImp).getEmpleados(empleados.getDni());
     verify(empleadosMapper).empleadostoEmpleadosDTO(empleados);
@@ -86,7 +86,7 @@ class EmpleadosControllerTest {
 
     Empleados respuesta = empleadosController.getEmpleado(empleados.getDni());
 
-    assertEquals(empleados1.getDni(), respuesta.getDni());
+    assertEquals(respuesta.getDni(), empleados1.getDni());
 
     verify(empleadosMapper).empleadostoEmpleadosDTO(
         empleadosServiceImp.addUpdateEmpleados(empleadosMapper.empleadosDTOtoEmpleados(empleados1)));

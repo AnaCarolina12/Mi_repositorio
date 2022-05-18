@@ -56,7 +56,7 @@ class EmpleadosServiceImpTest {
     //llamamos al metodo del injectMocks
     List<EmpleadosDTO> respuesta2 = empleadosServiceImp.getAllEmpleados();
 
-    assertEquals(Arrays.asList(empleados, empleados2).size(), respuesta2.size());
+    assertEquals(respuesta2, Arrays.asList(empleadosDTO, empleadosDTO2));
 
     verify(empleadosRepository).findAll();
 
