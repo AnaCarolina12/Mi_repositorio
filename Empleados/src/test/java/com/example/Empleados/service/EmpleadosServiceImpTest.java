@@ -53,12 +53,11 @@ class EmpleadosServiceImpTest {
     when(empleadosRepository.findAll()).thenReturn(Arrays.asList(empleados, empleados2));
     when(empleadosMapper.toempleados(Arrays.asList(empleados, empleados2))).thenReturn(Arrays.asList(empleadosDTO, empleadosDTO2));
 
-    List<Empleados> respuesta = empleadosRepository.findAll();
     List<EmpleadosDTO> respuesta2 = empleadosServiceImp.getAllEmpleados();
 
-    assertEquals(respuesta.size(), respuesta2.size());
+    assertEquals(Arrays.asList(empleados, empleados2).size(), respuesta2.size());
 
-    verify(empleadosRepository, times(2)).findAll();
+    verify(empleadosRepository).findAll();
 
 
   }
@@ -72,11 +71,10 @@ class EmpleadosServiceImpTest {
     when(empleadosRepository.findById(empleados.getDni())).thenReturn(Optional.ofNullable(empleados));
     when(empleadosMapper.empleadosDTOtoEmpleados(empleados)).thenReturn(empleadosDTO2);
 
-    Optional<Empleados> response2 = empleadosRepository.findById(empleados.getDni());
     Optional<EmpleadosDTO> listar = Optional.ofNullable(empleadosServiceImp.getEmpleados(empleados.getDni()));
 
-    assertEquals(listar.isPresent(), response2.isPresent());
-    verify(empleadosRepository, times(2)).findById(empleados.getDni());
+    assertEquals(listar.get().getDni(), empleadosDTO2.getDni());
+    verify(empleadosRepository).findById(empleados.getDni());
   }
 
   @Test
@@ -89,15 +87,14 @@ class EmpleadosServiceImpTest {
     //resuelto
     when(empleadosMapper.empleadostoEmpleadosDTO(empleadosDTO)).thenReturn(empleados);
     when(empleadosRepository.save(empleados)).thenReturn(empleados);
-
     when(empleadosMapper.empleadosDTOtoEmpleados(empleadosRepository.save(empleados))).thenReturn(empleadosDTO);
 
-    Empleados saveemp2 = empleadosRepository.save(empleados);
     EmpleadosDTO saveEmpleados = empleadosServiceImp.addUpdateEmpleados(empleadosDTO);
 
-    assertEquals(Optional.of(saveEmpleados).isPresent(), Optional.of(saveemp2).isPresent());
+    //Comprobación
 
-    verify(empleadosRepository, times(3)).save(empleados);
+    assertEquals(saveEmpleados.getDni(), empleadosDTO.getDni());
+    verify(empleadosRepository, times(2)).save(empleados);
     verify(empleadosMapper).empleadostoEmpleadosDTO(empleadosServiceImp.addUpdateEmpleados(empleadosDTO));
 
   }
@@ -112,6 +109,7 @@ class EmpleadosServiceImpTest {
     when(empleadosMapper.empleadosDTOtoEmpleados(empleados)).thenReturn(empleadosDTO2);
 
     empleadosServiceImp.deleteEmpleados(empleados.getDni());
+
     verify(empleadosRepository).deleteById(empleados.getDni());
     verify(empleadosMapper).empleadosDTOtoEmpleados(empleados);
   }
@@ -130,7 +128,7 @@ class EmpleadosServiceImpTest {
     assertThrows(
         NoSuchElementException.class,
         () ->
-            empleadosServiceImp.getEmpleados("1234567M")
+            empleadosServiceImp.getEmpleados("12345679M")
     );
 
   }
@@ -144,7 +142,7 @@ class EmpleadosServiceImpTest {
         BadRequestException.class,
         () ->
             //Llamada al metodo
-            empleadosMapper.empleadostoEmpleadosDTO(empleadosServiceImp.addUpdateEmpleados(empleadosDTO))
+            empleadosServiceImp.addUpdateEmpleados(empleadosDTO)
     );
 
 

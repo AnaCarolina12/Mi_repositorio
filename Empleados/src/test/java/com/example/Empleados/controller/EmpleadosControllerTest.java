@@ -1,13 +1,11 @@
 package com.example.Empleados.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import com.example.Empleados.dto.EmpleadosDTO;
 import com.example.Empleados.mapper.EmpleadosMapper;
@@ -50,11 +48,10 @@ class EmpleadosControllerTest {
     when(empleadosMapper.toempleadosDTO(Arrays.asList(empleadosDTO, empleadosDTO2))).thenReturn(Arrays.asList(empleados, empleados2));
 
     List<Empleados> respuesta = empleadosController.getAllEmpleados();
-    List<EmpleadosDTO> respuesta2 = empleadosServiceImp.getAllEmpleados();
 
-    assertEquals(respuesta2.size(), respuesta.size());
+    assertEquals(Arrays.asList(empleadosDTO, empleadosDTO2).size(), respuesta.size());
 
-    verify(empleadosServiceImp, times(2)).getAllEmpleados();
+    verify(empleadosServiceImp).getAllEmpleados();
     verify(empleadosMapper).toempleadosDTO(Arrays.asList(empleadosDTO, empleadosDTO2));
 
   }
@@ -68,12 +65,11 @@ class EmpleadosControllerTest {
     when(empleadosServiceImp.getEmpleados(empleados.getDni())).thenReturn(empleados);
     when(empleadosMapper.empleadostoEmpleadosDTO(empleados)).thenReturn(empleados1);
 
-    Empleados respuesta = empleadosController.getEmpleado(empleados.getDni());
-    Optional<EmpleadosDTO> respuesta2 = Optional.ofNullable(empleadosServiceImp.getEmpleados(empleados.getDni()));
+    Empleados response = empleadosController.getEmpleado(empleados.getDni());
 
-    assertEquals(respuesta2.isPresent(), Optional.of(respuesta).isPresent());
+    assertEquals(empleados1.getDni(), response.getDni());
 
-    verify(empleadosServiceImp, times(2)).getEmpleados(empleados.getDni());
+    verify(empleadosServiceImp).getEmpleados(empleados.getDni());
     verify(empleadosMapper).empleadostoEmpleadosDTO(empleados);
   }
 
@@ -83,17 +79,16 @@ class EmpleadosControllerTest {
     EmpleadosDTO empleados = getEmpleadosDTOModel("11111111P", "Martinez", "Romero");
     Empleados empleados1 = getEmpleadosModel("12345678M", "Ana", "Cruz");
 
-    when(empleadosServiceImp.addUpdateEmpleados(empleados)).thenReturn(empleados);
     when(empleadosMapper.empleadostoEmpleadosDTO(
         empleadosServiceImp.addUpdateEmpleados(empleadosMapper.empleadosDTOtoEmpleados(empleados1)))
     ).thenReturn(empleados1);
 
-    Empleados response = empleadosController.addUpdateEmpleados(empleados1);
-    EmpleadosDTO response2 = empleadosServiceImp.addUpdateEmpleados(empleados);
+    Empleados respuesta = empleadosController.getEmpleado(empleados.getDni());
 
-    assertEquals(Optional.of(response).isPresent(), Optional.of(response2).isPresent());
+    assertEquals(empleados1.getDni(), respuesta.getDni());
 
-    verify(empleadosServiceImp).addUpdateEmpleados(empleados);
+    verify(empleadosMapper).empleadostoEmpleadosDTO(
+        empleadosServiceImp.addUpdateEmpleados(empleadosMapper.empleadosDTOtoEmpleados(empleados1)));
 
   }
 
