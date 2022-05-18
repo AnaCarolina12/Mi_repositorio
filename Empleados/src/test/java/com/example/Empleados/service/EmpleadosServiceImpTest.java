@@ -53,6 +53,7 @@ class EmpleadosServiceImpTest {
     when(empleadosRepository.findAll()).thenReturn(Arrays.asList(empleados, empleados2));
     when(empleadosMapper.toempleados(Arrays.asList(empleados, empleados2))).thenReturn(Arrays.asList(empleadosDTO, empleadosDTO2));
 
+    //llamamos al metodo del injectMocks
     List<EmpleadosDTO> respuesta2 = empleadosServiceImp.getAllEmpleados();
 
     assertEquals(Arrays.asList(empleados, empleados2).size(), respuesta2.size());
