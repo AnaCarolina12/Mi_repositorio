@@ -84,14 +84,16 @@ class EmpleadosControllerTest {
     Empleados empleados1 = getEmpleadosModel("12345678M", "Ana", "Cruz");
 
     when(empleadosServiceImp.addUpdateEmpleados(empleados)).thenReturn(empleados);
-    //when(empleadosController.addUpdateEmpleados(empleados1)).thenReturn(empleados1);
+    when(empleadosMapper.empleadostoEmpleadosDTO(
+        empleadosServiceImp.addUpdateEmpleados(empleadosMapper.empleadosDTOtoEmpleados(empleados1)))
+    ).thenReturn(empleados1);
 
-    // Empleados response = empleadosController.addUpdateEmpleados(empleados1);
-    //EmpleadosDTO response2 = empleadosServiceImp.addUpdateEmpleados(empleados);
+    Empleados response = empleadosController.addUpdateEmpleados(empleados1);
+    EmpleadosDTO response2 = empleadosServiceImp.addUpdateEmpleados(empleados);
 
-    // assertEquals(Optional.of(response).isPresent(), Optional.of(response2).isPresent());
+    assertEquals(Optional.of(response).isPresent(), Optional.of(response2).isPresent());
 
-    //verify(empleadosServiceImp).addUpdateEmpleados(empleados);
+    verify(empleadosServiceImp).addUpdateEmpleados(empleados);
 
   }
 
