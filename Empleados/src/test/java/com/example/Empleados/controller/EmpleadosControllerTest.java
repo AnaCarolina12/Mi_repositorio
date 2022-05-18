@@ -1,6 +1,7 @@
 package com.example.Empleados.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -83,12 +84,11 @@ class EmpleadosControllerTest {
     when(empleadosMapper.empleadostoEmpleadosDTO(
         empleadosServiceImp.addUpdateEmpleados(empleadosMapper.empleadosDTOtoEmpleados(empleados1)))
     ).thenReturn(empleados1);
+    Empleados respuesta = empleadosController.addUpdateEmpleados(empleados1);
 
-    Empleados respuesta = empleadosController.getEmpleado(empleados.getDni());
+    assertEquals(respuesta, empleados1);
 
-    assertEquals(respuesta.getDni(), empleados1.getDni());
-
-    verify(empleadosMapper).empleadostoEmpleadosDTO(
+    verify(empleadosMapper, times(2)).empleadostoEmpleadosDTO(
         empleadosServiceImp.addUpdateEmpleados(empleadosMapper.empleadosDTOtoEmpleados(empleados1)));
 
   }
