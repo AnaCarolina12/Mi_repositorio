@@ -71,9 +71,9 @@ class EmpleadosServiceImpTest {
     when(empleadosRepository.findById(empleados.getDni())).thenReturn(Optional.ofNullable(empleados));
     when(empleadosMapper.empleadosDTOtoEmpleados(empleados)).thenReturn(empleadosDTO2);
 
-    Optional<EmpleadosDTO> listar = Optional.ofNullable(empleadosServiceImp.getEmpleados(empleados.getDni()));
+    EmpleadosDTO listar = empleadosServiceImp.getEmpleados(empleados.getDni());
 
-    assertEquals(listar.get().getDni(), empleadosDTO2.getDni());
+    assertEquals(listar.getDni(), empleadosDTO2.getDni());
     verify(empleadosRepository).findById(empleados.getDni());
   }
 
