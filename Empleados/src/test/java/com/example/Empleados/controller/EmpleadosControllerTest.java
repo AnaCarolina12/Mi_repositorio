@@ -46,7 +46,7 @@ class EmpleadosControllerTest {
     //El mapper tambien se tiene que mockear
     when(empleadosServiceImp.getAllEmpleados()).thenReturn(Arrays.asList(empleadosDTO, empleadosDTO2));
     when(empleadosMapper.toempleadosDTO(Arrays.asList(empleadosDTO, empleadosDTO2))).thenReturn(Arrays.asList(empleados, empleados2));
-
+    
     List<Empleados> respuesta = empleadosController.getAllEmpleados();
 
     assertEquals(Arrays.asList(empleadosDTO, empleadosDTO2).size(), respuesta.size());
