@@ -97,7 +97,7 @@ class EmpleadosServiceImpTest {
 
     //Comprobación
 
-    assertEquals(saveEmpleados.getDni(), empleadosDTO.getDni());
+    assertEquals(saveEmpleados, empleadosDTO);
     verify(empleadosRepository, times(2)).save(empleados);
     verify(empleadosMapper).empleadostoEmpleadosDTO(empleadosServiceImp.addUpdateEmpleados(empleadosDTO));
 

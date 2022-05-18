@@ -78,12 +78,13 @@ class EmpleadosControllerTest {
   @Test
   void addUpdateEmpleados() {
 
-    EmpleadosDTO empleados = getEmpleadosDTOModel("11111111P", "Martinez", "Romero");
+    EmpleadosDTO empleadosDTO = getEmpleadosDTOModel("11111111P", "Martinez", "Romero");
     Empleados empleados1 = getEmpleadosModel("12345678M", "Ana", "Cruz");
 
     when(empleadosMapper.empleadostoEmpleadosDTO(
-        empleadosServiceImp.addUpdateEmpleados(empleadosMapper.empleadosDTOtoEmpleados(empleados1)))
-    ).thenReturn(empleados1);
+        empleadosServiceImp.addUpdateEmpleados(empleadosMapper.empleadosDTOtoEmpleados(empleados1))))
+        .thenReturn(empleados1);
+
     Empleados respuesta = empleadosController.addUpdateEmpleados(empleados1);
 
     assertEquals(respuesta, empleados1);
