@@ -227,9 +227,9 @@ Cuando no se utiliza comparadores de argumentos, Mockito registra los valores de
 
    when(empleadosMapper.empleadosDTOtoEmpleados(empleadosDTO2)).thenReturn(empleadosDTO2);
 
-   Estos comparadores devuelven valores ficticios (0 o null).
+  en el caso de utilizar un comparador como any(), devuelve un valor ficticio (null).
 
-   Cuando se llama a un comparador como any o anyList,
+   Cuando se llama a un comparador como any anyList, anyString...,
     mockito almacena un objeto de coincidencia que hace que este omita esa verificación de igualdad y aplique la coincidencia de su
     elección
    */
