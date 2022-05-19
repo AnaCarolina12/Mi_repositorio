@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -68,14 +67,14 @@ class EmpleadosControllerTest {
     Empleados empleados1 = getEmpleadosModel("12345678M", "Ana", "Cruz");
 
     when(empleadosServiceImp.getEmpleados(anyString())).thenReturn(empleados);
-    when(empleadosMapper.empleadostoEmpleadosDTO(any())).thenReturn(empleados1);
+    when(empleadosMapper.empleadostoEmpleadosDTO(any(EmpleadosDTO.class))).thenReturn(empleados1);
 
     Empleados response = empleadosController.getEmpleado(empleados.getDni());
 
     assertEquals(response, empleados1);
 
     verify(empleadosServiceImp).getEmpleados(anyString());
-    verify(empleadosMapper).empleadostoEmpleadosDTO(any());
+    verify(empleadosMapper).empleadostoEmpleadosDTO(any(EmpleadosDTO.class));
   }
 
   @Test
@@ -85,15 +84,15 @@ class EmpleadosControllerTest {
     Empleados empleados1 = getEmpleadosModel("12345678M", "Ana", "Cruz");
 
     when(empleadosMapper.empleadostoEmpleadosDTO(
-        empleadosServiceImp.addUpdateEmpleados(empleadosMapper.empleadosDTOtoEmpleados(any()))))
+        empleadosServiceImp.addUpdateEmpleados(empleadosMapper.empleadosDTOtoEmpleados(any(Empleados.class)))))
         .thenReturn(empleados1);
 
     Empleados respuesta = empleadosController.addUpdateEmpleados(empleados1);
 
     assertEquals(respuesta, empleados1);
 
-    verify(empleadosMapper, times(2)).empleadostoEmpleadosDTO(
-        empleadosServiceImp.addUpdateEmpleados(empleadosMapper.empleadosDTOtoEmpleados(any())));
+    verify(empleadosMapper).empleadostoEmpleadosDTO(
+        empleadosServiceImp.addUpdateEmpleados(empleadosMapper.empleadosDTOtoEmpleados(any(Empleados.class))));
 
   }
 

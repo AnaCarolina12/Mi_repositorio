@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -74,13 +73,13 @@ class EmpleadosServiceImpTest {
     EmpleadosDTO empleadosDTO2 = getEmpleadosDTOModel("12345678G", "AnA", "cruz");
 
     when(empleadosRepository.findById(anyString())).thenReturn(Optional.ofNullable(empleados));
-    when(empleadosMapper.empleadosDTOtoEmpleados(any())).thenReturn(empleadosDTO2);
+    when(empleadosMapper.empleadosDTOtoEmpleados(any(Empleados.class))).thenReturn(empleadosDTO2);
 
     EmpleadosDTO listar = empleadosServiceImp.getEmpleados(anyString());
 
     assertEquals(listar, empleadosDTO2);
     verify(empleadosRepository).findById(anyString());
-    verify(empleadosMapper).empleadosDTOtoEmpleados(any());
+    verify(empleadosMapper).empleadosDTOtoEmpleados(any(Empleados.class));
   }
 
   @Test
@@ -90,10 +89,9 @@ class EmpleadosServiceImpTest {
     EmpleadosDTO empleadosDTO = getEmpleadosDTOModel("12345678G", "AnA", "cruz");
 
     //Definicion de mocikto
-    //resuelto
-    when(empleadosMapper.empleadostoEmpleadosDTO(any())).thenReturn(empleados);
-    when(empleadosRepository.save(any())).thenReturn(empleados);
-    when(empleadosMapper.empleadosDTOtoEmpleados(empleadosRepository.save(any()))).thenReturn(empleadosDTO);
+
+    when(empleadosMapper.empleadostoEmpleadosDTO(any(EmpleadosDTO.class))).thenReturn(empleados);
+    when(empleadosMapper.empleadosDTOtoEmpleados(empleadosRepository.save(any(Empleados.class)))).thenReturn(empleadosDTO);
 
     EmpleadosDTO saveEmpleados = empleadosServiceImp.addUpdateEmpleados(empleadosDTO);
 
@@ -101,7 +99,7 @@ class EmpleadosServiceImpTest {
 
     assertEquals(saveEmpleados, empleadosDTO);
 
-    verify(empleadosRepository, times(2)).save(any());
+    verify(empleadosRepository).save(any(Empleados.class));
     verify(empleadosMapper).empleadostoEmpleadosDTO(empleadosServiceImp.addUpdateEmpleados(empleadosDTO));
 
   }
@@ -113,12 +111,12 @@ class EmpleadosServiceImpTest {
     EmpleadosDTO empleadosDTO2 = getEmpleadosDTOModel("12345678G", "AnA", "cruz");
 
     when(empleadosRepository.findById(anyString())).thenReturn(Optional.ofNullable(empleados));
-    when(empleadosMapper.empleadosDTOtoEmpleados(any())).thenReturn(empleadosDTO2);
+    when(empleadosMapper.empleadosDTOtoEmpleados(any(Empleados.class))).thenReturn(empleadosDTO2);
 
     empleadosServiceImp.deleteEmpleados(anyString());
 
-    verify(empleadosRepository).deleteById(any());
-    verify(empleadosMapper).empleadosDTOtoEmpleados(any());
+    verify(empleadosRepository).deleteById(anyString());
+    verify(empleadosMapper).empleadosDTOtoEmpleados(any(Empleados.class));
   }
 
   @Test
