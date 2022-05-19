@@ -99,6 +99,7 @@ class EmpleadosServiceImpTest {
     //Comprobación
 
     assertEquals(saveEmpleados, empleadosDTO);
+
     verify(empleadosRepository).save(any());
     verify(empleadosMapper).empleadostoEmpleadosDTO(empleadosServiceImp.addUpdateEmpleados(any()));
 
@@ -212,5 +213,22 @@ class EmpleadosServiceImpTest {
     return empleados;
   }
 
+  /*
+   A veces queremos burlarnos del comportamiento de cualquier argumento del tipo dado,
+   para ello se utiliza los emparejadores de mockito.
+
+Los emparejadores de Mockito son static métodos y llamadas a esos métodos,
+ que sustituye a los argumentos durante las llamadas a when y verify.
+
+Cuando no se utiliza comparadores de argumentos, Mockito registra los valores de sus argumentos y los compara con sus métodos.
+
+   when(empleadosMapper.empleadosDTOtoEmpleados(empleadosDTO2)).thenReturn(empleadosDTO2);
+
+   Estos comparadores devuelven valores ficticios (0 o null).
+
+   Cuando se llama a un comparador como any o anyList,
+    mockito almacena un objeto de coincidencia que hace que este omita esa verificación de igualdad y aplique la coincidencia de su
+    elección
+   */
 
 }

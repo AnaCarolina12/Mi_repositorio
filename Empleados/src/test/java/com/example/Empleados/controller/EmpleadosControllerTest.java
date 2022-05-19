@@ -1,6 +1,9 @@
 package com.example.Empleados.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -46,7 +49,7 @@ class EmpleadosControllerTest {
 
     //El mapper tambien se tiene que mockear
     when(empleadosServiceImp.getAllEmpleados()).thenReturn(Arrays.asList(empleadosDTO, empleadosDTO2));
-    when(empleadosMapper.toempleadosDTO(Arrays.asList(empleadosDTO, empleadosDTO2))).thenReturn(Arrays.asList(empleados, empleados2));
+    when(empleadosMapper.toempleadosDTO(anyList())).thenReturn(Arrays.asList(empleados, empleados2));
 
     //llamamos al metodo del injectMocks
     List<Empleados> respuesta = empleadosController.getAllEmpleados();
@@ -54,7 +57,7 @@ class EmpleadosControllerTest {
     assertEquals(respuesta, Arrays.asList(empleados, empleados2));
 
     verify(empleadosServiceImp).getAllEmpleados();
-    verify(empleadosMapper).toempleadosDTO(Arrays.asList(empleadosDTO, empleadosDTO2));
+    verify(empleadosMapper).toempleadosDTO(anyList());
 
   }
 
@@ -64,15 +67,15 @@ class EmpleadosControllerTest {
     EmpleadosDTO empleados = getEmpleadosDTOModel("55567851T", "CarolinaUpdate", "Martinez");
     Empleados empleados1 = getEmpleadosModel("12345678M", "Ana", "Cruz");
 
-    when(empleadosServiceImp.getEmpleados(empleados.getDni())).thenReturn(empleados);
-    when(empleadosMapper.empleadostoEmpleadosDTO(empleados)).thenReturn(empleados1);
+    when(empleadosServiceImp.getEmpleados(anyString())).thenReturn(empleados);
+    when(empleadosMapper.empleadostoEmpleadosDTO(any())).thenReturn(empleados1);
 
     Empleados response = empleadosController.getEmpleado(empleados.getDni());
 
     assertEquals(response, empleados1);
 
-    verify(empleadosServiceImp).getEmpleados(empleados.getDni());
-    verify(empleadosMapper).empleadostoEmpleadosDTO(empleados);
+    verify(empleadosServiceImp).getEmpleados(anyString());
+    verify(empleadosMapper).empleadostoEmpleadosDTO(any());
   }
 
   @Test
@@ -82,7 +85,7 @@ class EmpleadosControllerTest {
     Empleados empleados1 = getEmpleadosModel("12345678M", "Ana", "Cruz");
 
     when(empleadosMapper.empleadostoEmpleadosDTO(
-        empleadosServiceImp.addUpdateEmpleados(empleadosMapper.empleadosDTOtoEmpleados(empleados1))))
+        empleadosServiceImp.addUpdateEmpleados(empleadosMapper.empleadosDTOtoEmpleados(any()))))
         .thenReturn(empleados1);
 
     Empleados respuesta = empleadosController.addUpdateEmpleados(empleados1);
@@ -90,7 +93,7 @@ class EmpleadosControllerTest {
     assertEquals(respuesta, empleados1);
 
     verify(empleadosMapper, times(2)).empleadostoEmpleadosDTO(
-        empleadosServiceImp.addUpdateEmpleados(empleadosMapper.empleadosDTOtoEmpleados(empleados1)));
+        empleadosServiceImp.addUpdateEmpleados(empleadosMapper.empleadosDTOtoEmpleados(any())));
 
   }
 
@@ -98,10 +101,10 @@ class EmpleadosControllerTest {
   void deleteEmpelados() {
 
     EmpleadosDTO empleados = getEmpleadosDTOModel("11111111P", "Martinez", "Romero");
-
+    //doNothing().when(empleadosServiceImp).deleteEmpleados(anyString());
     empleadosController.deleteEmpelados(empleados.getDni());
 
-    verify(empleadosServiceImp).deleteEmpleados(empleados.getDni());
+    verify(empleadosServiceImp).deleteEmpleados(anyString());
   }
 
   private EmpleadosDTO getEmpleadosDTOModel(String dni, String nombre, String apellidos) {
