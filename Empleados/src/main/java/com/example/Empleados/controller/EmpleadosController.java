@@ -20,7 +20,7 @@ public class EmpleadosController implements EmpleadosApi {
 
   @Autowired
   private EmpleadosMapper empleadosMapper = Mappers.getMapper(EmpleadosMapper.class);
-
+  
   @Override
   public List<Empleados> getAllEmpleados() {
 
