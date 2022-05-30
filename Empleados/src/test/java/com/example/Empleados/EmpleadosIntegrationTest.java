@@ -15,10 +15,10 @@ class EmpleadosIntegrationTest {
   void getAllEmpleados() {
 
     // quiero verificar que el cuerpo del objeto JSON no esté vacio.
-    ValidatableResponse response =
-        given().contentType(ContentType.JSON).when().get("/empleados").then()
-            .body("empty", equalTo(false))
-            .statusCode(200);
+
+    given().contentType(ContentType.JSON).when().get("/empleados").then()
+        .body("empty", equalTo(false))
+        .statusCode(200);
 
     //.... .log().body();
 
@@ -54,9 +54,8 @@ class EmpleadosIntegrationTest {
   @Test
   void deleteEmpleados() {
 
-    ValidatableResponse response =
-        given().contentType(ContentType.JSON).pathParameters("dni", "12345678M").when().delete("/empleados/{dni}")
-            .then().statusCode(200);
+    given().contentType(ContentType.JSON).pathParameters("dni", "12345678M").when().delete("/empleados/{dni}")
+        .then().statusCode(200);
 
   }
 
